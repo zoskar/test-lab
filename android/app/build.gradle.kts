@@ -20,7 +20,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "io.github.zoskar.testlab"
+        applicationId = "io.github.zoskar.testlab"
         minSdk = flutter.minSdkVersion
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode
