@@ -1,6 +1,10 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:test_lab/auth_cubit.dart';
 import 'package:test_lab/firebase_options.dart';
+import 'package:test_lab/pages/login_page.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -13,7 +17,15 @@ class TestLabApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(title: 'TestLab', home: TestLabScreen());
+    return MultiProvider(
+      providers: [Provider(create: (_) => FirebaseAuth.instance)],
+      builder: (context, child) {
+        return Provider(
+          create: (_) => AuthCubit(context.read<FirebaseAuth>()),
+          child: MaterialApp(title: 'TestLab', home: TestLabScreen()),
+        );
+      },
+    );
   }
 }
 
@@ -40,19 +52,26 @@ class TestLabScreen extends StatelessWidget {
         padding: const EdgeInsets.all(8.0),
         child: GridView.builder(
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 3, // Number of tiles in a row
-            crossAxisSpacing: 8.0, // Horizontal spacing between tiles
-            mainAxisSpacing: 8.0, // Vertical spacing between tiles
-            childAspectRatio: 1.0, // Ensures square tiles
+            crossAxisCount: 3,
+            crossAxisSpacing: 8.0,
+            mainAxisSpacing: 8.0,
+            childAspectRatio: 1.0,
           ),
           itemCount: testScenarios.length,
           itemBuilder: (context, index) {
             final scenario = testScenarios[index];
             return GestureDetector(
               onTap: () {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text('${scenario['title']} tapped')),
-                );
+                if (scenario['title'] == 'Login') {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => LoginPage()),
+                  );
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text('${scenario['title']} tapped')),
+                  );
+                }
               },
               child: Container(
                 decoration: BoxDecoration(
