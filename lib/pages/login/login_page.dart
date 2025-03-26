@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../auth_cubit.dart';
+import '../../cubits/auth_cubit.dart';
 
 class LoginPage extends StatelessWidget {
-  final TextEditingController emailController = TextEditingController();
-  final TextEditingController passwordController = TextEditingController();
+  final TextEditingController emailController = TextEditingController(
+    text: 'abc@wp.pl',
+  );
+  final TextEditingController passwordController = TextEditingController(
+    text: 'abc@wp.pl',
+  );
 
   LoginPage({super.key});
 
