@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "1037176075427",
+    "project_id": "test-lab-a4a12",
+    "storage_bucket": "test-lab-a4a12.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1037176075427:android:b7b8585076087b901d7b16",
+        "android_client_info": {
+          "package_name": "io.github.zoskar.testlab"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1037176075427-uu5df5svhp9kiidh87ifb2a2hh47rbgc.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "io.github.zoskar.testlab",
+            "certificate_hash": "554eec74bcfbdc4c19ed5d2a059d1908bfada594"
+          }
+        },
+        {
+          "client_id": "1037176075427-6584odseh760f6o1klpshpdio5vs3a0q.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB-woNIhTe9RzoaGmb-7CfF5YBqSmCPOYw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1037176075427-6584odseh760f6o1klpshpdio5vs3a0q.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1037176075427-u7i5lq9btkjardsqso7it2eh4a0lbrip.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "io.github.zoskar.testlab"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
