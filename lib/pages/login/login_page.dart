@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../cubits/auth_cubit.dart';
@@ -82,6 +83,40 @@ class LoginPage extends StatelessWidget {
                       },
                       child: const Text('Login'),
                     ),
+                  if (Platform.isAndroid) ...[
+                    const SizedBox(height: 24.0),
+                    const Row(
+                      children: [
+                        Expanded(child: Divider()),
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 16.0),
+                          child: Text('OR'),
+                        ),
+                        Expanded(child: Divider()),
+                      ],
+                    ),
+                    const SizedBox(height: 24.0),
+                    OutlinedButton.icon(
+                      onPressed: () {
+                        context.read<AuthCubit>().signInWithGoogle();
+                      },
+                      icon: Image.network(
+                        'https://www.google.com/favicon.ico',
+                        height: 24.0,
+                        width: 24.0,
+                      ),
+                      label: const Text('Sign in with Google'),
+                      style: OutlinedButton.styleFrom(
+                        padding: const EdgeInsets.symmetric(
+                          vertical: 12.0,
+                          horizontal: 16.0,
+                        ),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(4.0),
+                        ),
+                      ),
+                    ),
+                  ],
                 ],
               ),
             );

@@ -9,11 +9,6 @@
       "type": "dart",
       "request": "launch",
       "program": "lib/main.dart"
-    },
-    {
-      "name": "test-lab",
-      "request": "launch",
-      "type": "dart"
     }
   ]
 }

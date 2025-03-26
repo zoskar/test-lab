@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 abstract class AuthState {}
 
@@ -19,6 +20,7 @@ class AuthLoggedInState extends AuthState {
 
 class AuthCubit extends Cubit<AuthState> {
   final FirebaseAuth _firebaseAuth;
+  final GoogleSignIn _googleSignIn = GoogleSignIn();
 
   AuthCubit(this._firebaseAuth) : super(AuthLoggedOutState());
 
@@ -38,9 +40,36 @@ class AuthCubit extends Cubit<AuthState> {
   Future<void> logout() async {
     try {
       await _firebaseAuth.signOut();
-      emit(AuthLoggedOutState()); // Emit logged out state
+      emit(AuthLoggedOutState());
     } catch (_) {
       // Handle logout failure if necessary
+    }
+  }
+
+  Future<void> signInWithGoogle() async {
+    emit(AuthLoggingInState());
+    try {
+      final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
+
+      if (googleUser == null) {
+        emit(AuthLoggedOutState());
+        return;
+      }
+
+      final GoogleSignInAuthentication googleAuth =
+          await googleUser.authentication;
+
+      final OAuthCredential credential = GoogleAuthProvider.credential(
+        accessToken: googleAuth.accessToken,
+        idToken: googleAuth.idToken,
+      );
+
+      final UserCredential userCredential = await _firebaseAuth
+          .signInWithCredential(credential);
+
+      emit(AuthLoggedInState(userCredential.user!));
+    } catch (e) {
+      emit(AuthLoggedOutState(errorMessage: e.toString()));
     }
   }
 }

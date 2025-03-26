@@ -12,7 +12,20 @@
           "package_name": "io.github.zoskar.testlab"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "1037176075427-uu5df5svhp9kiidh87ifb2a2hh47rbgc.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "io.github.zoskar.testlab",
+            "certificate_hash": "554eec74bcfbdc4c19ed5d2a059d1908bfada594"
+          }
+        },
+        {
+          "client_id": "1037176075427-6584odseh760f6o1klpshpdio5vs3a0q.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyB-woNIhTe9RzoaGmb-7CfF5YBqSmCPOYw"
@@ -20,7 +33,19 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1037176075427-6584odseh760f6o1klpshpdio5vs3a0q.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1037176075427-u7i5lq9btkjardsqso7it2eh4a0lbrip.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "io.github.zoskar.testlab"
+              }
+            }
+          ]
         }
       }
     }
