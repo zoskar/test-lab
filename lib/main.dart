@@ -2,9 +2,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:test_lab/cubits/auth_cubit.dart';
+import 'package:test_lab/pages/login/auth_cubit.dart';
+import 'package:test_lab/pages/connection/connection_cubit.dart';
+import 'package:test_lab/pages/connection/connection_tile.dart';
 import 'package:test_lab/pages/login/auth_tile.dart';
 import 'package:test_lab/firebase_options.dart';
+import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -18,10 +21,23 @@ class TestLabApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
-      providers: [Provider(create: (_) => FirebaseAuth.instance)],
+      providers: [
+        Provider(create: (_) => FirebaseAuth.instance),
+        Provider(create: (_) => InternetConnection()),
+      ],
       builder: (context, child) {
-        return Provider(
-          create: (_) => AuthCubit(context.read<FirebaseAuth>()),
+        return MultiProvider(
+          providers: [
+            Provider(
+              create: (context) => AuthCubit(context.read<FirebaseAuth>()),
+            ),
+            Provider(
+              create:
+                  (context) => ConnectionCubit(
+                    connectionChecker: context.read<InternetConnection>(),
+                  ),
+            ),
+          ],
           child: MaterialApp(title: 'TestLab', home: TestLabScreen()),
         );
       },
@@ -44,6 +60,7 @@ class TestLabScreen extends StatelessWidget {
           mainAxisSpacing: 8.0,
           children: [
             AuthTile(),
+            ConnectionTile(),
             NotificationsTile(),
             PermissionsTile(),
             QRCodeTile(),
@@ -51,11 +68,20 @@ class TestLabScreen extends StatelessWidget {
             GPSTile(),
             WebViewTile(),
             DarkModeTile(),
-            ReportsTile(),
+            FormsTile(),
           ],
         ),
       ),
     );
+  }
+}
+
+class FormsTile extends StatelessWidget {
+  const FormsTile({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return _buildPlaceholderTile('Forms', Icons.description);
   }
 }
 
@@ -119,15 +145,6 @@ class DarkModeTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return _buildPlaceholderTile('Dark Mode', Icons.dark_mode);
-  }
-}
-
-class ReportsTile extends StatelessWidget {
-  const ReportsTile({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return _buildPlaceholderTile('Reports', Icons.analytics);
   }
 }
 

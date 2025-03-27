@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../cubits/auth_cubit.dart';
+import 'auth_cubit.dart';
 
 class LoginPage extends StatelessWidget {
   final TextEditingController emailController = TextEditingController(
@@ -72,6 +72,7 @@ class LoginPage extends StatelessWidget {
                     obscureText: true,
                   ),
                   const SizedBox(height: 32.0),
+                  //TODO add shorter timeout than 30s
                   if (state is AuthLoggingInState)
                     const CircularProgressIndicator()
                   else
