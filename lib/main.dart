@@ -44,6 +44,7 @@ class TestLabScreen extends StatelessWidget {
           mainAxisSpacing: 8.0,
           children: [
             AuthTile(),
+            ConnectionTile(),
             NotificationsTile(),
             PermissionsTile(),
             QRCodeTile(),
@@ -51,11 +52,29 @@ class TestLabScreen extends StatelessWidget {
             GPSTile(),
             WebViewTile(),
             DarkModeTile(),
-            ReportsTile(),
+            FormsTile(),
           ],
         ),
       ),
     );
+  }
+}
+
+class ConnectionTile extends StatelessWidget {
+  const ConnectionTile({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return _buildPlaceholderTile('Connection', Icons.wifi);
+  }
+}
+
+class FormsTile extends StatelessWidget {
+  const FormsTile({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return _buildPlaceholderTile('Forms', Icons.description);
   }
 }
 
@@ -119,15 +138,6 @@ class DarkModeTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return _buildPlaceholderTile('Dark Mode', Icons.dark_mode);
-  }
-}
-
-class ReportsTile extends StatelessWidget {
-  const ReportsTile({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return _buildPlaceholderTile('Reports', Icons.analytics);
   }
 }
 
