@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../cubits/auth_cubit.dart';
+import 'auth_cubit.dart';
 
 class LoginPage extends StatelessWidget {
   final TextEditingController emailController = TextEditingController(
