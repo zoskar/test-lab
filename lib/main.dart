@@ -62,7 +62,6 @@ class TestLabScreen extends StatelessWidget {
           children: [
             const AuthTile(),
             const ConnectionTile(),
-            const DarkModeTile(),
             const NotificationsTile(),
             const PermissionsTile(),
             const QRCodeTile(),
@@ -70,6 +69,7 @@ class TestLabScreen extends StatelessWidget {
             const GPSTile(),
             const WebViewTile(),
             const FormsTile(),
+            // const DarkModeTile(),
           ],
         ),
       ),
