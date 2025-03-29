@@ -1,9 +1,9 @@
+import 'package:app_settings/app_settings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:app_settings/app_settings.dart';
 import 'notifications_success_page.dart';
 
-//TODO refactor this page
+// TODO refactor this page
 class NotificationsPage extends StatefulWidget {
   const NotificationsPage({super.key});
 
@@ -25,7 +25,9 @@ class _NotificationsPageState extends State<NotificationsPage> {
 
   void _navigateToSuccessScreen() {
     Navigator.of(context).push(
-      MaterialPageRoute(builder: (context) => const NotificationSuccessPage()),
+      MaterialPageRoute<void>(
+        builder: (context) => const NotificationSuccessPage(),
+      ),
     );
   }
 
@@ -34,7 +36,7 @@ class _NotificationsPageState extends State<NotificationsPage> {
     return Scaffold(
       appBar: AppBar(title: const Text('Notifications')),
       body: Padding(
-        padding: const EdgeInsets.all(20.0),
+        padding: const EdgeInsets.all(20),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -99,7 +101,7 @@ class _NotificationsPageState extends State<NotificationsPage> {
         );
   }
 
-  void _openAppSettings() async {
+  Future<void> _openAppSettings() async {
     await AppSettings.openAppSettings();
   }
 }
@@ -110,13 +112,13 @@ class NotificationsController {
   String status = 'Initializing...';
   bool isLoading = false;
   bool permissionGranted = false;
-  late Function setState;
-  late Function() navigateToSuccessScreen;
+  late void Function() setState;
+  late void Function() navigateToSuccessScreen;
 
   /// Initialize the controller and notifications plugin
   Future<void> initialize({
-    required Function stateCallback,
-    required Function() navigationCallback,
+    required void Function() stateCallback,
+    required void Function() navigationCallback,
   }) async {
     setState = stateCallback;
     navigateToSuccessScreen = navigationCallback;
@@ -145,8 +147,8 @@ class NotificationsController {
       _updateStatus(
         'Ready to use notifications - Tap Request Permission to proceed',
       );
-    } catch (e) {
-      _updateStatus('Initialization error: $e');
+    } catch (err) {
+      _updateStatus('Initialization error: $err');
     }
   }
 
@@ -157,7 +159,7 @@ class NotificationsController {
 
   Future<void> checkPermission() async {
     try {
-      bool hasPermission = false;
+      var hasPermission = false;
 
       final iOS =
           _notifications
@@ -189,8 +191,8 @@ class NotificationsController {
             ? 'Ready to send notifications'
             : 'Notification permission denied',
       );
-    } catch (e) {
-      _updateStatus('Permission check error: $e');
+    } catch (err) {
+      _updateStatus('Permission check error: $err');
     }
   }
 
@@ -227,8 +229,8 @@ class NotificationsController {
       );
 
       _updateStatus('Notification sent successfully');
-    } catch (e) {
-      _updateStatus('Error sending notification: $e');
+    } catch (err) {
+      _updateStatus('Error sending notification: $err');
     } finally {
       isLoading = false;
       setState();

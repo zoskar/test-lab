@@ -5,24 +5,21 @@ import 'package:google_sign_in/google_sign_in.dart';
 abstract class AuthState {}
 
 class AuthLoggedOutState extends AuthState {
-  final String? errorMessage;
-
   AuthLoggedOutState({this.errorMessage});
+  final String? errorMessage;
 }
 
 class AuthLoggingInState extends AuthState {}
 
 class AuthLoggedInState extends AuthState {
-  final User user;
-
   AuthLoggedInState(this.user);
+  final User user;
 }
 
 class AuthCubit extends Cubit<AuthState> {
+  AuthCubit(this._firebaseAuth) : super(AuthLoggedOutState());
   final FirebaseAuth _firebaseAuth;
   final GoogleSignIn _googleSignIn = GoogleSignIn();
-
-  AuthCubit(this._firebaseAuth) : super(AuthLoggedOutState());
 
   Future<void> login(String email, String password) async {
     emit(AuthLoggingInState());
@@ -32,8 +29,8 @@ class AuthCubit extends Cubit<AuthState> {
         password: password,
       );
       emit(AuthLoggedInState(userCredential.user!));
-    } catch (e) {
-      emit(AuthLoggedOutState(errorMessage: e.toString()));
+    } catch (err) {
+      emit(AuthLoggedOutState(errorMessage: err.toString()));
     }
   }
 
@@ -68,8 +65,8 @@ class AuthCubit extends Cubit<AuthState> {
           .signInWithCredential(credential);
 
       emit(AuthLoggedInState(userCredential.user!));
-    } catch (e) {
-      emit(AuthLoggedOutState(errorMessage: e.toString()));
+    } catch (err) {
+      emit(AuthLoggedOutState(errorMessage: err.toString()));
     }
   }
 }

@@ -3,23 +3,20 @@ import 'package:bloc/bloc.dart';
 import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
 
 class ConnectionCubit extends Cubit<ConnectionStatus> {
-  final InternetConnection connectionChecker;
-  StreamSubscription<InternetStatus>? _connectionSubscription;
-
   ConnectionCubit({required this.connectionChecker})
     : super(const ConnectionInitial()) {
     monitorConnection();
   }
+  final InternetConnection connectionChecker;
+  StreamSubscription<InternetStatus>? _connectionSubscription;
 
   void monitorConnection() {
     _connectionSubscription = connectionChecker.onStatusChange.listen((status) {
       switch (status) {
         case InternetStatus.connected:
           emitConnected();
-          break;
         case InternetStatus.disconnected:
           emitDisconnected();
-          break;
       }
     });
   }
