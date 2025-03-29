@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:test_lab/pages/connection/connection_page.dart';
+import 'package:test_lab/features/connection/connection_page.dart';
 import 'package:test_lab/widgets/tile.dart';
 
 class ConnectionTile extends StatelessWidget {

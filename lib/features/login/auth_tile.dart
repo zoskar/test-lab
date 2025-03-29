@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:test_lab/pages/login/auth_cubit.dart';
-import 'package:test_lab/pages/login/login_page.dart';
+import 'package:test_lab/features/login/auth_cubit.dart';
+import 'package:test_lab/features/login/login_page.dart';
 import 'package:test_lab/widgets/tile.dart';
 
 class AuthTile extends StatelessWidget {
