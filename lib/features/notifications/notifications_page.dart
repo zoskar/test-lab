@@ -3,6 +3,7 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:app_settings/app_settings.dart';
 import 'notifications_success_page.dart';
 
+//TODO refactor this page
 class NotificationsPage extends StatefulWidget {
   const NotificationsPage({super.key});
 
