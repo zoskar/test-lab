@@ -13,7 +13,7 @@ class WebViewTile extends StatelessWidget {
       onTap: () {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => const WebViewPage()),
+          MaterialPageRoute<void>(builder: (context) => const WebViewPage()),
         );
       },
     );

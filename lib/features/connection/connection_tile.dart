@@ -13,7 +13,7 @@ class ConnectionTile extends StatelessWidget {
       onTap: () {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => ConnectionPage()),
+          MaterialPageRoute<void>(builder: (context) => const ConnectionPage()),
         );
       },
     );

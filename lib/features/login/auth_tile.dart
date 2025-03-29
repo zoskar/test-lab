@@ -11,8 +11,8 @@ class AuthTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<AuthCubit, AuthState>(
       builder: (context, authState) {
-        final bool isLoggedIn = authState is AuthLoggedInState;
-        final String title = isLoggedIn ? 'Logout' : 'Login';
+        final isLoggedIn = authState is AuthLoggedInState;
+        final title = isLoggedIn ? 'Logout' : 'Login';
         final IconData icon = isLoggedIn ? Icons.logout : Icons.login;
 
         return TLTile(
@@ -21,7 +21,7 @@ class AuthTile extends StatelessWidget {
           onTap: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => LoginPage()),
+              MaterialPageRoute<void>(builder: (context) => LoginPage()),
             );
           },
         );

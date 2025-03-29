@@ -1,15 +1,15 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
 import 'package:provider/provider.dart';
-import 'package:test_lab/features/login/auth_cubit.dart';
 import 'package:test_lab/features/connection/connection_cubit.dart';
 import 'package:test_lab/features/connection/connection_tile.dart';
+import 'package:test_lab/features/login/auth_cubit.dart';
 import 'package:test_lab/features/login/auth_tile.dart';
 import 'package:test_lab/features/notifications/notifications_tile.dart';
 import 'package:test_lab/features/webView/web_view_tile.dart';
 import 'package:test_lab/util/firebase_options.dart';
-import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
 import 'package:test_lab/widgets/placeholder_tile.dart';
 
 Future<void> main() async {
@@ -41,7 +41,7 @@ class TestLabApp extends StatelessWidget {
                   ),
             ),
           ],
-          child: MaterialApp(title: 'TestLab', home: TestLabScreen()),
+          child: const MaterialApp(title: 'TestLab', home: TestLabScreen()),
         );
       },
     );
@@ -56,20 +56,20 @@ class TestLabScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(title: const Text('Test Scenarios'), centerTitle: true),
       body: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(8),
         child: GridView.count(
           crossAxisCount: 3,
-          crossAxisSpacing: 8.0,
-          mainAxisSpacing: 8.0,
-          children: [
-            const AuthTile(),
-            const ConnectionTile(),
-            const WebViewTile(),
-            const NotificationsTile(),
-            const QRCodeTile(),
-            const BiometricTile(),
-            const GPSTile(),
-            const FormsTile(),
+          crossAxisSpacing: 8,
+          mainAxisSpacing: 8,
+          children: const [
+            AuthTile(),
+            ConnectionTile(),
+            WebViewTile(),
+            NotificationsTile(),
+            QRCodeTile(),
+            BiometricTile(),
+            GPSTile(),
+            FormsTile(),
             // const DarkModeTile(),
           ],
         ),

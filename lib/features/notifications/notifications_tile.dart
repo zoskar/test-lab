@@ -13,7 +13,7 @@ class NotificationsTile extends StatelessWidget {
       onTap: () {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => const NotificationsPage()),
+          MaterialPageRoute<void>(builder: (context) => const NotificationsPage()),
         );
       },
     );

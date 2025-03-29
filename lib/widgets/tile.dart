@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
 
 class TLTile extends StatelessWidget {
-  final IconData icon;
-  final String text;
-  final VoidCallback onTap;
-
   const TLTile({
     super.key,
     required this.icon,
     required this.text,
     required this.onTap,
   });
+  final IconData icon;
+  final String text;
+  final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -19,21 +18,18 @@ class TLTile extends StatelessWidget {
       child: Container(
         decoration: BoxDecoration(
           color: Colors.blue.shade100,
-          borderRadius: BorderRadius.circular(8.0),
+          borderRadius: BorderRadius.circular(8),
           border: Border.all(color: Colors.blue.shade300),
         ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(icon, size: 40.0, color: Colors.blue.shade700),
-            const SizedBox(height: 8.0),
+            Icon(icon, size: 40, color: Colors.blue.shade700),
+            const SizedBox(height: 8),
             Text(
               text,
               textAlign: TextAlign.center,
-              style: const TextStyle(
-                fontSize: 14.0,
-                fontWeight: FontWeight.bold,
-              ),
+              style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
             ),
           ],
         ),

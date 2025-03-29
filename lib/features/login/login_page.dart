@@ -4,14 +4,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'auth_cubit.dart';
 
 class LoginPage extends StatelessWidget {
+  LoginPage({super.key});
   final TextEditingController emailController = TextEditingController(
     text: 'abc@wp.pl',
   );
   final TextEditingController passwordController = TextEditingController(
     text: 'abc@wp.pl',
   );
-
-  LoginPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -35,14 +34,14 @@ class LoginPage extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     const Text('You are logged in!'),
-                    const SizedBox(height: 16.0),
+                    const SizedBox(height: 16),
                     ElevatedButton(
                       onPressed: () {
                         Navigator.of(context).pop();
                       },
                       child: const Text('Go Back'),
                     ),
-                    const SizedBox(height: 16.0),
+                    const SizedBox(height: 16),
                     ElevatedButton(
                       onPressed: () {
                         context.read<AuthCubit>().logout();
@@ -56,7 +55,7 @@ class LoginPage extends StatelessWidget {
 
             // User is not logged in, show login form
             return Padding(
-              padding: const EdgeInsets.all(16.0),
+              padding: const EdgeInsets.all(16),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -65,14 +64,14 @@ class LoginPage extends StatelessWidget {
                     decoration: const InputDecoration(labelText: 'Email'),
                     keyboardType: TextInputType.emailAddress,
                   ),
-                  const SizedBox(height: 16.0),
+                  const SizedBox(height: 16),
                   TextField(
                     controller: passwordController,
                     decoration: const InputDecoration(labelText: 'Password'),
                     obscureText: true,
                   ),
-                  const SizedBox(height: 32.0),
-                  //TODO add shorter timeout than 30s
+                  const SizedBox(height: 32),
+                  // TODO add shorter timeout than 30s
                   if (state is AuthLoggingInState)
                     const CircularProgressIndicator()
                   else
@@ -85,35 +84,35 @@ class LoginPage extends StatelessWidget {
                       child: const Text('Login'),
                     ),
                   if (Platform.isAndroid) ...[
-                    const SizedBox(height: 24.0),
+                    const SizedBox(height: 24),
                     const Row(
                       children: [
                         Expanded(child: Divider()),
                         Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 16.0),
+                          padding: EdgeInsets.symmetric(horizontal: 16),
                           child: Text('OR'),
                         ),
                         Expanded(child: Divider()),
                       ],
                     ),
-                    const SizedBox(height: 24.0),
+                    const SizedBox(height: 24),
                     OutlinedButton.icon(
                       onPressed: () {
                         context.read<AuthCubit>().signInWithGoogle();
                       },
                       icon: Image.network(
                         'https://www.google.com/favicon.ico',
-                        height: 24.0,
-                        width: 24.0,
+                        height: 24,
+                        width: 24,
                       ),
                       label: const Text('Sign in with Google'),
                       style: OutlinedButton.styleFrom(
                         padding: const EdgeInsets.symmetric(
-                          vertical: 12.0,
-                          horizontal: 16.0,
+                          vertical: 12,
+                          horizontal: 16,
                         ),
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(4.0),
+                          borderRadius: BorderRadius.circular(4),
                         ),
                       ),
                     ),
