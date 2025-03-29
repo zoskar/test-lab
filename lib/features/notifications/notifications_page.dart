@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:app_settings/app_settings.dart';
+import 'notifications_success_page.dart';
 
 class NotificationsPage extends StatefulWidget {
   const NotificationsPage({super.key});
@@ -15,7 +16,16 @@ class _NotificationsPageState extends State<NotificationsPage> {
   @override
   void initState() {
     super.initState();
-    _controller.initialize(() => setState(() {}));
+    _controller.initialize(
+      stateCallback: () => setState(() {}),
+      navigationCallback: _navigateToSuccessScreen,
+    );
+  }
+
+  void _navigateToSuccessScreen() {
+    Navigator.of(context).push(
+      MaterialPageRoute(builder: (context) => const NotificationSuccessPage()),
+    );
   }
 
   @override
@@ -57,14 +67,12 @@ class _NotificationsPageState extends State<NotificationsPage> {
             textAlign: TextAlign.center,
             style: const TextStyle(fontSize: 16),
           ),
-          // if (!_controller.permissionGranted) ...[
           const SizedBox(height: 16),
           OutlinedButton.icon(
             onPressed: _openAppSettings,
             icon: const Icon(Icons.settings),
             label: const Text('Open Settings'),
           ),
-          // ],
         ],
       ),
     );
@@ -102,10 +110,15 @@ class NotificationsController {
   bool isLoading = false;
   bool permissionGranted = false;
   late Function setState;
+  late Function() navigateToSuccessScreen;
 
   /// Initialize the controller and notifications plugin
-  Future<void> initialize(Function stateCallback) async {
+  Future<void> initialize({
+    required Function stateCallback,
+    required Function() navigationCallback,
+  }) async {
     setState = stateCallback;
+    navigateToSuccessScreen = navigationCallback;
     await _initializeNotifications();
   }
 
@@ -124,10 +137,10 @@ class NotificationsController {
         initSettings,
         onDidReceiveNotificationResponse: (response) {
           debugPrint('Notification received: ${response.payload}');
+          navigateToSuccessScreen();
         },
       );
 
-      // Remove the automatic permission check
       _updateStatus(
         'Ready to use notifications - Tap Request Permission to proceed',
       );
@@ -145,7 +158,6 @@ class NotificationsController {
     try {
       bool hasPermission = false;
 
-      // For iOS
       final iOS =
           _notifications
               .resolvePlatformSpecificImplementation<
@@ -161,7 +173,6 @@ class NotificationsController {
             false;
       }
 
-      // For Android 13+
       final android =
           _notifications
               .resolvePlatformSpecificImplementation<
