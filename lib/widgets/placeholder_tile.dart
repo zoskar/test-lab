@@ -68,11 +68,3 @@ class GPSTile extends StatelessWidget {
   }
 }
 
-class WebViewTile extends StatelessWidget {
-  const WebViewTile({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return TLTile(icon: Icons.web, text: 'WebView', onTap: () {});
-  }
-}
