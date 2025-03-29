@@ -66,7 +66,6 @@ class TestLabScreen extends StatelessWidget {
             const ConnectionTile(),
             const WebViewTile(),
             const NotificationsTile(),
-            const PermissionsTile(),
             const QRCodeTile(),
             const BiometricTile(),
             const GPSTile(),

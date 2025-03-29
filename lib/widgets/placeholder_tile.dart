@@ -19,15 +19,6 @@ class DarkModeTile extends StatelessWidget {
   }
 }
 
-class PermissionsTile extends StatelessWidget {
-  const PermissionsTile({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return TLTile(icon: Icons.security, text: 'Permissions', onTap: () {});
-  }
-}
-
 class QRCodeTile extends StatelessWidget {
   const QRCodeTile({super.key});
 
