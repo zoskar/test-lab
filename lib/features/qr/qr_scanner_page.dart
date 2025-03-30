@@ -11,22 +11,14 @@ class QRScannerPage extends StatefulWidget {
 class _QRScannerPageState extends State<QRScannerPage> {
   final MobileScannerController _controller = MobileScannerController();
   String _scanResult = 'Scan a QR code';
-  bool _hasScanned = false; // Track whether scan is complete
+  bool _hasScanned = false;
+  String? _imageUrl;
+  bool _hasError = false;
 
   @override
   void dispose() {
     _controller.dispose();
     super.dispose();
-  }
-
-  bool _isValidUrl(String url) {
-    final urlRegExp = RegExp(
-      '^(http|https)://'
-      r'([a-zA-Z0-9]([a-zA-Z0-9\-]{0,61}[a-zA-Z0-9])?\.)+[a-zA-Z]{2,6}'
-      r'(/[\w\-\.,@?^=%&:/~\+#]*)*',
-      caseSensitive: false,
-    );
-    return urlRegExp.hasMatch(url);
   }
 
   void _onDetect(BarcodeCapture capture) {
@@ -39,18 +31,36 @@ class _QRScannerPageState extends State<QRScannerPage> {
 
       setState(() {
         final scannedValue = barcode.rawValue!;
+        _hasScanned = true;
+        _hasError = false;
 
-        if (_isValidUrl(scannedValue)) {
-          _scanResult = 'Valid URL: $scannedValue';
+        if (scannedValue.startsWith('http://') ||
+            scannedValue.startsWith('https://')) {
+          _imageUrl = scannedValue;
+          _scanResult = 'URL detected: Attempting to load image';
         } else {
-          _scanResult = 'Invalid URL: $scannedValue';
+          _imageUrl = 'https://${scannedValue.replaceAll(RegExp('^/+'), '')}';
+          _scanResult = 'Attempting to load image: $_imageUrl';
         }
-
-        _hasScanned = true; // Mark scan as complete
       });
 
       break;
     }
+  }
+
+  void _handleImageError() {
+    if (!_hasError) {
+      setState(() {
+        _hasError = true;
+        _scanResult = 'Cannot load as image: $_imageUrl';
+      });
+    }
+  }
+
+  void _handleImageLoaded() {
+    setState(() {
+      _scanResult = 'Image loaded successfully';
+    });
   }
 
   @override
@@ -71,10 +81,55 @@ class _QRScannerPageState extends State<QRScannerPage> {
             child: Container(
               width: double.infinity,
               padding: const EdgeInsets.all(16),
-              child: Text(
-                _scanResult,
-                style: const TextStyle(fontSize: 16),
-                textAlign: TextAlign.center,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    _scanResult,
+                    style: const TextStyle(fontSize: 16),
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(height: 16),
+                  if (_imageUrl != null) ...[
+                    Expanded(
+                      child:
+                          _hasError
+                              ? const Center(child: Text('Error loading image'))
+                              : Image.network(
+                                _imageUrl!,
+                                loadingBuilder: (
+                                  context,
+                                  child,
+                                  loadingProgress,
+                                ) {
+                                  if (loadingProgress == null) {
+                                    // Image has loaded successfully
+                                    WidgetsBinding.instance
+                                        .addPostFrameCallback((_) {
+                                          _handleImageLoaded();
+                                        });
+                                    return child;
+                                  }
+                                  // Still loading - show progress indicator
+                                  return const Center(
+                                    child: CircularProgressIndicator(),
+                                  );
+                                },
+                                errorBuilder: (context, error, stackTrace) {
+                                  // Schedule the state update for after build completes
+                                  WidgetsBinding.instance.addPostFrameCallback((
+                                    _,
+                                  ) {
+                                    _handleImageError();
+                                  });
+                                  return const Center(
+                                    child: Text('Failed to load image'),
+                                  );
+                                },
+                              ),
+                    ),
+                  ],
+                ],
               ),
             ),
           ),
