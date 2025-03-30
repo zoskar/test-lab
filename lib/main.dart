@@ -8,6 +8,7 @@ import 'package:test_lab/features/connection/connection_tile.dart';
 import 'package:test_lab/features/login/auth_cubit.dart';
 import 'package:test_lab/features/login/auth_tile.dart';
 import 'package:test_lab/features/notifications/notifications_tile.dart';
+import 'package:test_lab/features/qr/qr_tile.dart';
 import 'package:test_lab/features/webView/web_view_tile.dart';
 import 'package:test_lab/util/firebase_options.dart';
 import 'package:test_lab/widgets/placeholder_tile.dart';
