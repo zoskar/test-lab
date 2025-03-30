@@ -11,7 +11,6 @@ class QRScannerPage extends StatefulWidget {
 class _QRScannerPageState extends State<QRScannerPage> {
   final MobileScannerController _controller = MobileScannerController();
   String _scanResult = 'Scan a QR code';
-  bool _isScanning = true;
 
   @override
   void dispose() {
@@ -30,10 +29,6 @@ class _QRScannerPageState extends State<QRScannerPage> {
   }
 
   void _onDetect(BarcodeCapture capture) {
-    if (!_isScanning) {
-      return;
-    }
-
     final List<Barcode> barcodes = capture.barcodes;
 
     for (final barcode in barcodes) {
@@ -42,7 +37,6 @@ class _QRScannerPageState extends State<QRScannerPage> {
       }
 
       setState(() {
-        _isScanning = false;
         final scannedValue = barcode.rawValue!;
 
         if (_isValidUrl(scannedValue)) {
@@ -56,13 +50,6 @@ class _QRScannerPageState extends State<QRScannerPage> {
     }
   }
 
-  void _resetScanner() {
-    setState(() {
-      _scanResult = 'Scan a QR code';
-      _isScanning = true;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -71,33 +58,16 @@ class _QRScannerPageState extends State<QRScannerPage> {
         children: [
           Expanded(
             flex: 2,
-            child:
-                _isScanning
-                    ? MobileScanner(
-                      controller: _controller,
-                      onDetect: _onDetect,
-                    )
-                    : const Center(child: Text('Scan completed')),
+            child: MobileScanner(controller: _controller, onDetect: _onDetect),
           ),
           Expanded(
             child: Container(
               width: double.infinity,
               padding: const EdgeInsets.all(16),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    _scanResult,
-                    style: const TextStyle(fontSize: 16),
-                    textAlign: TextAlign.center,
-                  ),
-                  const SizedBox(height: 20),
-                  if (!_isScanning)
-                    ElevatedButton(
-                      onPressed: _resetScanner,
-                      child: const Text('Scan Again'),
-                    ),
-                ],
+              child: Text(
+                _scanResult,
+                style: const TextStyle(fontSize: 16),
+                textAlign: TextAlign.center,
               ),
             ),
           ),
