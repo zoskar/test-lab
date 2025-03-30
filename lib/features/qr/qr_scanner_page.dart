@@ -11,6 +11,7 @@ class QRScannerPage extends StatefulWidget {
 class _QRScannerPageState extends State<QRScannerPage> {
   final MobileScannerController _controller = MobileScannerController();
   String _scanResult = 'Scan a QR code';
+  bool _hasScanned = false; // Track whether scan is complete
 
   @override
   void dispose() {
@@ -44,6 +45,8 @@ class _QRScannerPageState extends State<QRScannerPage> {
         } else {
           _scanResult = 'Invalid URL: $scannedValue';
         }
+
+        _hasScanned = true; // Mark scan as complete
       });
 
       break;
@@ -56,10 +59,14 @@ class _QRScannerPageState extends State<QRScannerPage> {
       appBar: AppBar(title: const Text('QR Code Scanner')),
       body: Column(
         children: [
-          Expanded(
-            flex: 2,
-            child: MobileScanner(controller: _controller, onDetect: _onDetect),
-          ),
+          if (!_hasScanned)
+            Expanded(
+              flex: 2,
+              child: MobileScanner(
+                controller: _controller,
+                onDetect: _onDetect,
+              ),
+            ),
           Expanded(
             child: Container(
               width: double.infinity,
