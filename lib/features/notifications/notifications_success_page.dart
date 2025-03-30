@@ -29,7 +29,9 @@ class NotificationSuccessPage extends StatelessWidget {
             ),
             const SizedBox(height: 32),
             ElevatedButton(
-              onPressed: () => Navigator.of(context).pop(),
+              onPressed:
+                  () =>
+                      Navigator.of(context).popUntil(ModalRoute.withName('/')),
               child: const Text('Go Back'),
             ),
           ],
