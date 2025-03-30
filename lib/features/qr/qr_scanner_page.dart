@@ -22,30 +22,29 @@ class _QRScannerPageState extends State<QRScannerPage> {
   }
 
   void _onDetect(BarcodeCapture capture) {
-    final List<Barcode> barcodes = capture.barcodes;
+    final barcode = capture.barcodes.firstWhere(
+      (barcode) => barcode.rawValue != null,
+      orElse: () => const Barcode(),
+    );
 
-    for (final barcode in barcodes) {
-      if (barcode.rawValue == null) {
-        continue;
-      }
-
-      setState(() {
-        final scannedValue = barcode.rawValue!;
-        _hasScanned = true;
-        _hasError = false;
-
-        if (scannedValue.startsWith('http://') ||
-            scannedValue.startsWith('https://')) {
-          _imageUrl = scannedValue;
-          _scanResult = 'URL detected: Attempting to load image';
-        } else {
-          _imageUrl = 'https://${scannedValue.replaceAll(RegExp('^/+'), '')}';
-          _scanResult = 'Attempting to load image: $_imageUrl';
-        }
-      });
-
-      break;
+    if (barcode.rawValue == null) {
+      return;
     }
+
+    final scannedValue = barcode.rawValue!;
+    _processScannedValue(scannedValue);
+  }
+
+  void _processScannedValue(String scannedValue) {
+    setState(() {
+      _hasScanned = true;
+      _hasError = false;
+      _imageUrl =
+          scannedValue.startsWith(RegExp('https?://'))
+              ? scannedValue
+              : 'https://${scannedValue.replaceAll(RegExp('^/+'), '')}';
+      _scanResult = 'Attempting to load image';
+    });
   }
 
   void _handleImageError() {
@@ -68,73 +67,63 @@ class _QRScannerPageState extends State<QRScannerPage> {
     return Scaffold(
       appBar: AppBar(title: const Text('QR Code Scanner')),
       body: Column(
-        children: [
-          if (!_hasScanned)
-            Expanded(
-              flex: 2,
-              child: MobileScanner(
-                controller: _controller,
-                onDetect: _onDetect,
-              ),
-            ),
-          Expanded(
-            child: Container(
-              width: double.infinity,
-              padding: const EdgeInsets.all(16),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    _scanResult,
-                    style: const TextStyle(fontSize: 16),
-                    textAlign: TextAlign.center,
-                  ),
-                  const SizedBox(height: 16),
-                  if (_imageUrl != null) ...[
-                    Expanded(
-                      child:
-                          _hasError
-                              ? const Center(child: Text('Error loading image'))
-                              : Image.network(
-                                _imageUrl!,
-                                loadingBuilder: (
-                                  context,
-                                  child,
-                                  loadingProgress,
-                                ) {
-                                  if (loadingProgress == null) {
-                                    // Image has loaded successfully
-                                    WidgetsBinding.instance
-                                        .addPostFrameCallback((_) {
-                                          _handleImageLoaded();
-                                        });
-                                    return child;
-                                  }
-                                  // Still loading - show progress indicator
-                                  return const Center(
-                                    child: CircularProgressIndicator(),
-                                  );
-                                },
-                                errorBuilder: (context, error, stackTrace) {
-                                  // Schedule the state update for after build completes
-                                  WidgetsBinding.instance.addPostFrameCallback((
-                                    _,
-                                  ) {
-                                    _handleImageError();
-                                  });
-                                  return const Center(
-                                    child: Text('Failed to load image'),
-                                  );
-                                },
-                              ),
-                    ),
-                  ],
-                ],
-              ),
-            ),
-          ),
-        ],
+        children: [if (!_hasScanned) _buildScanner(), _buildResultDisplay()],
       ),
+    );
+  }
+
+  Widget _buildScanner() {
+    return Expanded(
+      flex: 2,
+      child: MobileScanner(controller: _controller, onDetect: _onDetect),
+    );
+  }
+
+  Widget _buildResultDisplay() {
+    return Expanded(
+      child: Container(
+        width: double.infinity,
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              _scanResult,
+              style: const TextStyle(fontSize: 16),
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 16),
+            if (_imageUrl != null)
+              Expanded(
+                child:
+                    _hasError
+                        ? const Center(child: Text('Error loading image'))
+                        : _buildNetworkImage(),
+              ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildNetworkImage() {
+    return Image.network(
+      _imageUrl!,
+      loadingBuilder: (context, child, loadingProgress) {
+        if (loadingProgress == null) {
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            _handleImageLoaded();
+          });
+          return child;
+        }
+        return const Center(child: CircularProgressIndicator());
+      },
+      errorBuilder: (context, error, stackTrace) {
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          _handleImageError();
+        });
+        return const Center(child: Text('Failed to load image'));
+      },
     );
   }
 }
