@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
@@ -14,11 +15,20 @@ class _GPSPageState extends State<GPSPage> {
   final Location _location = Location();
   final MapController _mapController = MapController();
   final List<Marker> _markers = [];
+  StreamSubscription<LocationData>? _locationSubscription;
 
   // Default position (will be updated with the user's location)
   LatLng _currentPosition = const LatLng(0, 0);
   bool _locationObtained = false;
   bool _mapReady = false;
+
+  // Waypoint coordinates
+  final LatLng _waypointPosition = const LatLng(
+    52.212771677342275,
+    20.97159515378119,
+  );
+  final double _proximityThreshold = 50; // meters
+  bool _reachedWaypoint = false;
 
   @override
   void initState() {
@@ -28,8 +38,55 @@ class _GPSPageState extends State<GPSPage> {
 
   @override
   void dispose() {
+    _cancelLocationSubscription(); // Cancel subscription when widget disposes
     _mapController.dispose();
     super.dispose();
+  }
+
+  // Add method to cancel location subscription
+  void _cancelLocationSubscription() {
+    _locationSubscription?.cancel();
+    _locationSubscription = null;
+  }
+
+  // Calculate distance between two points in meters
+  double _calculateDistance(LatLng point1, LatLng point2) {
+    const distance = Distance();
+    return distance.as(LengthUnit.Meter, point1, point2);
+  }
+
+  void _checkProximityToWaypoint(LatLng position) {
+    final double distance = _calculateDistance(position, _waypointPosition);
+
+    if (distance <= _proximityThreshold && !_reachedWaypoint) {
+      setState(() {
+        _reachedWaypoint = true;
+      });
+      _showSuccessDialog();
+    }
+  }
+
+  void _showSuccessDialog() {
+    showDialog<void>(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text('Success!'),
+          content: const Text('You have reached the waypoint!'),
+          backgroundColor: Colors.green[100],
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Continue'),
+              onPressed: () {
+                _cancelLocationSubscription();
+                Navigator.of(context).popUntil(ModalRoute.withName('/'));
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 
   Future<void> _getUserLocation() async {
@@ -37,7 +94,6 @@ class _GPSPageState extends State<GPSPage> {
     PermissionStatus permissionGranted;
     LocationData locationData;
 
-    // Check if location services are enabled
     serviceEnabled = await _location.serviceEnabled();
     if (!serviceEnabled) {
       serviceEnabled = await _location.requestService();
@@ -46,7 +102,6 @@ class _GPSPageState extends State<GPSPage> {
       }
     }
 
-    // Check if location permission is granted
     permissionGranted = await _location.hasPermission();
     if (permissionGranted == PermissionStatus.denied) {
       permissionGranted = await _location.requestPermission();
@@ -55,10 +110,8 @@ class _GPSPageState extends State<GPSPage> {
       }
     }
 
-    // Get location
     locationData = await _location.getLocation();
 
-    // Update map position
     final latLng = LatLng(locationData.latitude!, locationData.longitude!);
 
     setState(() {
@@ -70,14 +123,28 @@ class _GPSPageState extends State<GPSPage> {
         ..add(
           Marker(
             point: latLng,
-            width: 80,
-            height: 80,
-            child: const Icon(Icons.location_on, color: Colors.red, size: 40),
+            width: 40,
+            height: 40,
+            child: const Icon(
+              Icons.person_pin_circle,
+              color: Colors.blue,
+              size: 30,
+            ),
+          ),
+        )
+        ..add(
+          Marker(
+            point: _waypointPosition,
+            width: 40,
+            height: 40,
+            child: const Icon(Icons.location_on, color: Colors.red, size: 30),
           ),
         );
 
       _locationObtained = true;
     });
+
+    _checkProximityToWaypoint(latLng);
 
     // Move map to user location only if map is ready
     if (_mapReady) {
@@ -85,7 +152,9 @@ class _GPSPageState extends State<GPSPage> {
     }
 
     // Subscribe to location changes
-    _location.onLocationChanged.listen((currentLocation) {
+    _locationSubscription = _location.onLocationChanged.listen((
+      currentLocation,
+    ) {
       final latLng = LatLng(
         currentLocation.latitude!,
         currentLocation.longitude!,
@@ -98,14 +167,27 @@ class _GPSPageState extends State<GPSPage> {
           ..add(
             Marker(
               point: latLng,
-              width: 80,
-              height: 80,
-              child: const Icon(Icons.location_on, color: Colors.red, size: 40),
+              width: 40,
+              height: 40,
+              child: const Icon(
+                Icons.person_pin_circle,
+                color: Colors.blue,
+                size: 30,
+              ),
+            ),
+          )
+          ..add(
+            Marker(
+              point: _waypointPosition,
+              width: 40,
+              height: 40,
+              child: const Icon(Icons.location_on, color: Colors.red, size: 30),
             ),
           );
       });
 
-      // Only move the map if it's ready
+      _checkProximityToWaypoint(latLng);
+
       if (_mapReady) {
         _mapController.move(_currentPosition, _mapController.camera.zoom);
       }
@@ -166,18 +248,31 @@ class _GPSPageState extends State<GPSPage> {
               ..add(
                 Marker(
                   point: latLng,
-                  width: 80,
-                  height: 80,
+                  width: 40,
+                  height: 40,
+                  child: const Icon(
+                    Icons.person_pin_circle,
+                    color: Colors.blue,
+                    size: 30,
+                  ),
+                ),
+              )
+              ..add(
+                Marker(
+                  point: _waypointPosition,
+                  width: 40,
+                  height: 40,
                   child: const Icon(
                     Icons.location_on,
                     color: Colors.red,
-                    size: 40,
+                    size: 30,
                   ),
                 ),
               );
           });
 
-          // Only move the map if it's ready
+          _checkProximityToWaypoint(latLng);
+
           if (_mapReady) {
             _mapController.move(_currentPosition, 15);
           }
