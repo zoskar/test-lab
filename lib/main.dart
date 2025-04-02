@@ -5,6 +5,7 @@ import 'package:internet_connection_checker_plus/internet_connection_checker_plu
 import 'package:provider/provider.dart';
 import 'package:test_lab/features/connection/connection_cubit.dart';
 import 'package:test_lab/features/connection/connection_tile.dart';
+import 'package:test_lab/features/gps/gps_tile.dart';
 import 'package:test_lab/features/login/auth_cubit.dart';
 import 'package:test_lab/features/login/auth_tile.dart';
 import 'package:test_lab/features/notifications/notifications_tile.dart';
