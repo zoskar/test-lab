@@ -27,12 +27,3 @@ class BiometricTile extends StatelessWidget {
     return TLTile(icon: Icons.fingerprint, text: 'Biometric', onTap: () {});
   }
 }
-
-class GPSTile extends StatelessWidget {
-  const GPSTile({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return TLTile(icon: Icons.location_on, text: 'GPS', onTap: () {});
-  }
-}
