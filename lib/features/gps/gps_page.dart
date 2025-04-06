@@ -23,11 +23,8 @@ class _GPSPageState extends State<GPSPage> {
   bool _mapReady = false;
 
   // Waypoint coordinates
-  final LatLng _waypointPosition = const LatLng(
-    52.212771677342275,
-    20.97159515378119,
-  );
-  final double _proximityThreshold = 50; // meters
+  final LatLng _waypointPosition = const LatLng(51.247619, 22.566694);
+  final double _proximityThreshold = 15; // meters
   bool _reachedWaypoint = false;
 
   @override
@@ -199,9 +196,9 @@ class _GPSPageState extends State<GPSPage> {
       mapController: _mapController,
       options: MapOptions(
         initialCenter: _currentPosition,
-        initialZoom: 15,
-        minZoom: 3,
-        maxZoom: 18,
+        initialZoom: 17,
+        minZoom: 17,
+        maxZoom: 17,
         onMapReady: () {
           setState(() {
             _mapReady = true;
