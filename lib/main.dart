@@ -14,8 +14,6 @@ import 'package:test_lab/features/webView/web_view_tile.dart';
 import 'package:test_lab/util/firebase_options.dart';
 import 'package:test_lab/widgets/placeholder_tile.dart';
 
-// TODO refactor this page
-
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
