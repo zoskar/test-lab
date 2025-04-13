@@ -108,13 +108,6 @@ class _FormPageState extends State<FormPage> {
     return null;
   }
 
-  String? _validateNotifications(bool value) {
-    if (!_notificationsEnabled) {
-      return 'Please enable notifications';
-    }
-    return null;
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -236,31 +229,17 @@ class _FormPageState extends State<FormPage> {
 
               const SizedBox(height: 16),
 
-              // Toggle for notifications
               FormField<bool>(
                 builder: (state) {
-                  return Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      SwitchListTile(
-                        title: const Text('Enable Notifications'),
-                        value: _notificationsEnabled,
-                        onChanged: (value) {
-                          setState(() => _notificationsEnabled = value);
-                          state.didChange(value);
-                        },
-                      ),
-                      if (state.hasError)
-                        Text(
-                          state.errorText!,
-                          style: TextStyle(
-                            color: Theme.of(context).colorScheme.error,
-                          ),
-                        ),
-                    ],
+                  return SwitchListTile(
+                    title: const Text('Enable Notifications'),
+                    value: _notificationsEnabled,
+                    onChanged: (value) {
+                      setState(() => _notificationsEnabled = value);
+                      state.didChange(value);
+                    },
                   );
                 },
-                validator: (value) => _validateNotifications(value ?? false),
               ),
 
               const SizedBox(height: 24),
