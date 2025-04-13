@@ -11,8 +11,6 @@ class FormPage extends StatefulWidget {
 class _FormPageState extends State<FormPage> {
   final _formKey = GlobalKey<FormState>();
 
-  // Form field values
-  String _eventName = '';
   String _eventType = 'Conference';
   bool _isOnline = false;
   bool _isRecorded = false;
@@ -22,10 +20,35 @@ class _FormPageState extends State<FormPage> {
   Color _selectedColor = Colors.blue;
   bool _notificationsEnabled = false;
 
+  // Text controller for event name
+  final TextEditingController _nameController = TextEditingController();
+
   final List<String> _eventTypes = ['Conference', 'Workshop', 'Meetup'];
 
   static const guestOptions = [5.0, 10.0, 20.0, 50.0, 100.0, 200.0, 500.0];
   static const guestLabels = ['5', '10', '20', '50', '100', '200', '500+'];
+
+  @override
+  void initState() {
+    super.initState();
+    _nameController.addListener(_updateFormState);
+  }
+
+  @override
+  void dispose() {
+    _nameController.dispose();
+    super.dispose();
+  }
+
+  void _updateFormState() {
+    setState(() {});
+  }
+
+  bool _isFormValid() {
+    return _nameController.text.isNotEmpty && 
+           _selectedDate != 'Select Date' && 
+           _selectedTime != 'Select Time';
+  }
 
   Future<void> _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
@@ -85,24 +108,11 @@ class _FormPageState extends State<FormPage> {
   void _saveForm() {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
+      // Don't reset the form state, just show the success message
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Event saved successfully!')),
       );
     }
-  }
-
-  String? _validateDate(String? value) {
-    if (_selectedDate == 'Select Date') {
-      return 'Please select a date';
-    }
-    return null;
-  }
-
-  String? _validateTime(String? value) {
-    if (_selectedTime == 'Select Time') {
-      return 'Please select a time';
-    }
-    return null;
   }
 
   @override
@@ -116,15 +126,9 @@ class _FormPageState extends State<FormPage> {
           child: ListView(
             children: [
               TextFormField(
-                initialValue: _eventName,
+                controller: _nameController,
                 decoration: const InputDecoration(labelText: 'Event Name'),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter an event name';
-                  }
-                  return null;
-                },
-                onSaved: (value) => _eventName = value!,
+                onSaved: (value) {},
               ),
 
               const SizedBox(height: 16),
@@ -192,25 +196,25 @@ class _FormPageState extends State<FormPage> {
               const SizedBox(height: 16),
 
               TextFormField(
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   labelText: 'Event Date',
-                  hintText: _selectedDate,
+                  suffixIcon: Icon(Icons.calendar_today),
                 ),
+                controller: TextEditingController(text: _selectedDate),
                 readOnly: true,
                 onTap: () => _selectDate(context),
-                validator: _validateDate,
               ),
 
               const SizedBox(height: 16),
 
               TextFormField(
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   labelText: 'Event Time',
-                  hintText: _selectedTime,
+                  suffixIcon: Icon(Icons.access_time),
                 ),
+                controller: TextEditingController(text: _selectedTime),
                 readOnly: true,
                 onTap: () => _selectTime(context),
-                validator: _validateTime,
               ),
 
               const SizedBox(height: 16),
@@ -239,8 +243,11 @@ class _FormPageState extends State<FormPage> {
               const SizedBox(height: 24),
 
               ElevatedButton(
-                onPressed: _saveForm,
-                child: const Text('Save Event'),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: _isFormValid() ? Colors.lightBlue : Colors.grey,
+                ),
+                onPressed: _isFormValid() ? _saveForm : null,
+                child: const Text('Save Event', style: TextStyle(color: Colors.white)),
               ),
             ],
           ),
