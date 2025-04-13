@@ -15,13 +15,14 @@ class _FormPageState extends State<FormPage> {
   bool _isOnline = false;
   bool _isRecorded = false;
   double _guestCount = 50;
-  String _selectedTime = 'Select Time'; // Will be initialized in initState
-  String _selectedDate = 'Select Date'; // Will be initialized in initState
+  String _selectedTime = 'Select Time';
+  String _selectedDate = 'Select Date';
   Color _selectedColor = Colors.blue;
   bool _notificationsEnabled = false;
 
-  // Text controller for event name
   final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _dateController = TextEditingController();
+  final TextEditingController _timeController = TextEditingController();
 
   final List<String> _eventTypes = ['Conference', 'Workshop', 'Meetup'];
 
@@ -31,16 +32,17 @@ class _FormPageState extends State<FormPage> {
   @override
   void initState() {
     super.initState();
-    _nameController.addListener(_updateFormState);
+    _nameController.addListener(() => setState(() {}));
 
     final tomorrow = DateTime.now().add(const Duration(days: 1));
-    _selectedDate =
-        '${tomorrow.year}-${tomorrow.month.toString().padLeft(2, '0')}-${tomorrow.day.toString().padLeft(2, '0')}';
+    _selectedDate = _formatDate(tomorrow);
+    _dateController.text = _selectedDate;
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (mounted) {
         setState(() {
           _selectedTime = TimeOfDay.now().format(context);
+          _timeController.text = _selectedTime;
         });
       }
     });
@@ -49,11 +51,13 @@ class _FormPageState extends State<FormPage> {
   @override
   void dispose() {
     _nameController.dispose();
+    _dateController.dispose();
+    _timeController.dispose();
     super.dispose();
   }
 
-  void _updateFormState() {
-    setState(() {});
+  String _formatDate(DateTime date) {
+    return '${date.year}-${date.month.toString().padLeft(2, '0')}-${date.day.toString().padLeft(2, '0')}';
   }
 
   bool _isFormValid() {
@@ -69,8 +73,8 @@ class _FormPageState extends State<FormPage> {
     );
     if (picked != null) {
       setState(() {
-        _selectedDate =
-            '${picked.year}-${picked.month.toString().padLeft(2, '0')}-${picked.day.toString().padLeft(2, '0')}';
+        _selectedDate = _formatDate(picked);
+        _dateController.text = _selectedDate;
       });
     }
   }
@@ -83,6 +87,7 @@ class _FormPageState extends State<FormPage> {
     if (picked != null) {
       setState(() {
         _selectedTime = picked.format(context);
+        _timeController.text = _selectedTime;
       });
     }
   }
@@ -110,16 +115,13 @@ class _FormPageState extends State<FormPage> {
       },
     );
     if (picked != null) {
-      setState(() {
-        _selectedColor = picked;
-      });
+      setState(() => _selectedColor = picked);
     }
   }
 
   void _saveForm() {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
-      // Don't reset the form state, just show the success message
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Event saved successfully!')),
       );
@@ -182,14 +184,13 @@ class _FormPageState extends State<FormPage> {
                     max: (guestOptions.length - 1).toDouble(),
                     divisions: guestOptions.length - 1,
                     label:
-                        _guestCount == guestOptions.last
-                            ? guestLabels.last
+                        _guestCount >= 500
+                            ? '500+'
                             : _guestCount.round().toString(),
-                    onChanged: (value) {
-                      setState(() {
-                        _guestCount = guestOptions[value.round()];
-                      });
-                    },
+                    onChanged:
+                        (value) => setState(
+                          () => _guestCount = guestOptions[value.round()],
+                        ),
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -211,7 +212,7 @@ class _FormPageState extends State<FormPage> {
                   labelText: 'Event Date',
                   suffixIcon: Icon(Icons.calendar_today),
                 ),
-                controller: TextEditingController(text: _selectedDate),
+                controller: _dateController,
                 readOnly: true,
                 onTap: () => _selectDate(context),
               ),
@@ -223,7 +224,7 @@ class _FormPageState extends State<FormPage> {
                   labelText: 'Event Time',
                   suffixIcon: Icon(Icons.access_time),
                 ),
-                controller: TextEditingController(text: _selectedTime),
+                controller: _timeController,
                 readOnly: true,
                 onTap: () => _selectTime(context),
               ),
@@ -239,16 +240,15 @@ class _FormPageState extends State<FormPage> {
               const SizedBox(height: 16),
 
               FormField<bool>(
-                builder: (state) {
-                  return SwitchListTile(
-                    title: const Text('Enable Notifications'),
-                    value: _notificationsEnabled,
-                    onChanged: (value) {
-                      setState(() => _notificationsEnabled = value);
-                      state.didChange(value);
-                    },
-                  );
-                },
+                builder:
+                    (state) => SwitchListTile(
+                      title: const Text('Enable Notifications'),
+                      value: _notificationsEnabled,
+                      onChanged: (value) {
+                        setState(() => _notificationsEnabled = value);
+                        state.didChange(value);
+                      },
+                    ),
               ),
 
               const SizedBox(height: 24),
