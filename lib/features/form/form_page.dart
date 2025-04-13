@@ -22,14 +22,11 @@ class _FormPageState extends State<FormPage> {
   Color _selectedColor = Colors.blue;
   bool _notificationsEnabled = false;
 
-  // Dropdown options
   final List<String> _eventTypes = ['Conference', 'Workshop', 'Meetup'];
 
-  // Guest options and labels
   static const guestOptions = [5.0, 10.0, 20.0, 50.0, 100.0, 200.0, 500.0];
   static const guestLabels = ['5', '10', '20', '50', '100', '200', '500+'];
 
-  // Helper methods
   Future<void> _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
       context: context,
@@ -194,7 +191,6 @@ class _FormPageState extends State<FormPage> {
 
               const SizedBox(height: 16),
 
-              // Date picker
               TextFormField(
                 decoration: InputDecoration(
                   labelText: 'Event Date',
@@ -207,7 +203,6 @@ class _FormPageState extends State<FormPage> {
 
               const SizedBox(height: 16),
 
-              // Time picker
               TextFormField(
                 decoration: InputDecoration(
                   labelText: 'Event Time',
@@ -220,7 +215,6 @@ class _FormPageState extends State<FormPage> {
 
               const SizedBox(height: 16),
 
-              // Color picker
               ListTile(
                 title: const Text('Event Theme Color'),
                 trailing: CircleAvatar(backgroundColor: _selectedColor),
@@ -244,7 +238,6 @@ class _FormPageState extends State<FormPage> {
 
               const SizedBox(height: 24),
 
-              // Save button
               ElevatedButton(
                 onPressed: _saveForm,
                 child: const Text('Save Event'),
