@@ -15,6 +15,7 @@ class _FormPageState extends State<FormPage> {
   String _eventName = '';
   String _eventType = 'Conference';
   bool _isOnline = false;
+  bool _isRecorded = false;
   double _guestCount = 50;
   String _selectedTime = 'Select Time';
   String _selectedDate = 'Select Date';
@@ -22,12 +23,11 @@ class _FormPageState extends State<FormPage> {
   bool _notificationsEnabled = false;
 
   // Dropdown options
-  final List<String> _eventTypes = [
-    'Conference',
-    'Workshop',
-    'Meetup',
-    'Party',
-  ];
+  final List<String> _eventTypes = ['Conference', 'Workshop', 'Meetup'];
+
+  // Guest options and labels
+  static const guestOptions = [5.0, 10.0, 20.0, 50.0, 100.0, 200.0, 500.0];
+  static const guestLabels = ['5', '10', '20', '50', '100', '200', '500+'];
 
   // Helper methods
   Future<void> _selectDate(BuildContext context) async {
@@ -97,14 +97,13 @@ class _FormPageState extends State<FormPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Event Planning Form')),
+      appBar: AppBar(title: const Text('Event Creation Form')),
       body: Padding(
         padding: const EdgeInsets.all(16),
         child: Form(
           key: _formKey,
           child: ListView(
             children: [
-              // TextField for event name
               TextFormField(
                 initialValue: _eventName,
                 decoration: const InputDecoration(labelText: 'Event Name'),
@@ -119,7 +118,6 @@ class _FormPageState extends State<FormPage> {
 
               const SizedBox(height: 16),
 
-              // Dropdown for event type
               DropdownButtonFormField<String>(
                 value: _eventType,
                 decoration: const InputDecoration(labelText: 'Event Type'),
@@ -135,27 +133,47 @@ class _FormPageState extends State<FormPage> {
 
               const SizedBox(height: 16),
 
-              // Checkbox for online event
               CheckboxListTile(
                 title: const Text('Is this an online event?'),
                 value: _isOnline,
                 onChanged: (value) => setState(() => _isOnline = value!),
               ),
 
+              CheckboxListTile(
+                title: const Text('Is this event recorded?'),
+                value: _isRecorded,
+                onChanged: (value) => setState(() => _isRecorded = value!),
+              ),
+
               const SizedBox(height: 16),
 
-              // Slider for guest count
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const Text('Number of Guests'),
                   Slider(
-                    value: _guestCount,
-                    min: 10,
-                    max: 500,
-                    divisions: 49,
-                    label: _guestCount.round().toString(),
-                    onChanged: (value) => setState(() => _guestCount = value),
+                    value: guestOptions.indexOf(_guestCount).toDouble(),
+                    max: (guestOptions.length - 1).toDouble(),
+                    divisions: guestOptions.length - 1,
+                    label:
+                        _guestCount == guestOptions.last
+                            ? guestLabels.last
+                            : _guestCount.round().toString(),
+                    onChanged: (value) {
+                      setState(() {
+                        _guestCount = guestOptions[value.round()];
+                      });
+                    },
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children:
+                        guestLabels
+                            .map(
+                              (label) =>
+                                  Expanded(child: Center(child: Text(label))),
+                            )
+                            .toList(),
                   ),
                 ],
               ),
