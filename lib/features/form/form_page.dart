@@ -141,7 +141,7 @@ class _FormPageState extends State<FormPage> {
             children: [
               TextFormField(
                 controller: _nameController,
-                decoration: const InputDecoration(labelText: 'Event Name'),
+                decoration: const InputDecoration(labelText: 'Event Name*'),
                 onSaved: (value) {},
               ),
 
