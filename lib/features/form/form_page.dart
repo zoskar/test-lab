@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
+import 'form_success_page.dart';
 
 class FormPage extends StatefulWidget {
   const FormPage({super.key});
@@ -122,8 +123,8 @@ class _FormPageState extends State<FormPage> {
   void _saveForm() {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Event saved successfully!')),
+      Navigator.of(context).push(
+        MaterialPageRoute<void>(builder: (context) => const FormSuccessPage()),
       );
     }
   }
