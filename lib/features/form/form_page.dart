@@ -15,8 +15,8 @@ class _FormPageState extends State<FormPage> {
   bool _isOnline = false;
   bool _isRecorded = false;
   double _guestCount = 50;
-  String _selectedTime = 'Select Time';
-  String _selectedDate = 'Select Date';
+  String _selectedTime = 'Select Time'; // Will be initialized in initState
+  String _selectedDate = 'Select Date'; // Will be initialized in initState
   Color _selectedColor = Colors.blue;
   bool _notificationsEnabled = false;
 
@@ -32,6 +32,18 @@ class _FormPageState extends State<FormPage> {
   void initState() {
     super.initState();
     _nameController.addListener(_updateFormState);
+
+    final tomorrow = DateTime.now().add(const Duration(days: 1));
+    _selectedDate =
+        '${tomorrow.year}-${tomorrow.month.toString().padLeft(2, '0')}-${tomorrow.day.toString().padLeft(2, '0')}';
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) {
+        setState(() {
+          _selectedTime = TimeOfDay.now().format(context);
+        });
+      }
+    });
   }
 
   @override
@@ -45,21 +57,20 @@ class _FormPageState extends State<FormPage> {
   }
 
   bool _isFormValid() {
-    return _nameController.text.isNotEmpty && 
-           _selectedDate != 'Select Date' && 
-           _selectedTime != 'Select Time';
+    return _nameController.text.isNotEmpty;
   }
 
   Future<void> _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
       context: context,
-      initialDate: DateTime.now(),
+      initialDate: DateTime.now().add(const Duration(days: 1)),
       firstDate: DateTime(2000),
       lastDate: DateTime(2100),
     );
     if (picked != null) {
       setState(() {
-        _selectedDate = '${picked.year}-${picked.month}-${picked.day}';
+        _selectedDate =
+            '${picked.year}-${picked.month.toString().padLeft(2, '0')}-${picked.day.toString().padLeft(2, '0')}';
       });
     }
   }
@@ -244,10 +255,14 @@ class _FormPageState extends State<FormPage> {
 
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: _isFormValid() ? Colors.lightBlue : Colors.grey,
+                  backgroundColor:
+                      _isFormValid() ? Colors.lightBlue : Colors.grey,
                 ),
                 onPressed: _isFormValid() ? _saveForm : null,
-                child: const Text('Save Event', style: TextStyle(color: Colors.white)),
+                child: const Text(
+                  'Save Event',
+                  style: TextStyle(color: Colors.white),
+                ),
               ),
             ],
           ),
