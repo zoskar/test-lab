@@ -94,6 +94,27 @@ class _FormPageState extends State<FormPage> {
     }
   }
 
+  String? _validateDate(String? value) {
+    if (_selectedDate == 'Select Date') {
+      return 'Please select a date';
+    }
+    return null;
+  }
+
+  String? _validateTime(String? value) {
+    if (_selectedTime == 'Select Time') {
+      return 'Please select a time';
+    }
+    return null;
+  }
+
+  String? _validateNotifications(bool value) {
+    if (!_notificationsEnabled) {
+      return 'Please enable notifications';
+    }
+    return null;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -181,19 +202,27 @@ class _FormPageState extends State<FormPage> {
               const SizedBox(height: 16),
 
               // Date picker
-              ListTile(
-                title: Text('Event Date: $_selectedDate'),
-                trailing: const Icon(Icons.calendar_today),
+              TextFormField(
+                decoration: InputDecoration(
+                  labelText: 'Event Date',
+                  hintText: _selectedDate,
+                ),
+                readOnly: true,
                 onTap: () => _selectDate(context),
+                validator: _validateDate,
               ),
 
               const SizedBox(height: 16),
 
               // Time picker
-              ListTile(
-                title: Text('Event Time: $_selectedTime'),
-                trailing: const Icon(Icons.access_time),
+              TextFormField(
+                decoration: InputDecoration(
+                  labelText: 'Event Time',
+                  hintText: _selectedTime,
+                ),
+                readOnly: true,
                 onTap: () => _selectTime(context),
+                validator: _validateTime,
               ),
 
               const SizedBox(height: 16),
@@ -208,11 +237,30 @@ class _FormPageState extends State<FormPage> {
               const SizedBox(height: 16),
 
               // Toggle for notifications
-              SwitchListTile(
-                title: const Text('Enable Notifications'),
-                value: _notificationsEnabled,
-                onChanged:
-                    (value) => setState(() => _notificationsEnabled = value),
+              FormField<bool>(
+                builder: (state) {
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SwitchListTile(
+                        title: const Text('Enable Notifications'),
+                        value: _notificationsEnabled,
+                        onChanged: (value) {
+                          setState(() => _notificationsEnabled = value);
+                          state.didChange(value);
+                        },
+                      ),
+                      if (state.hasError)
+                        Text(
+                          state.errorText!,
+                          style: TextStyle(
+                            color: Theme.of(context).colorScheme.error,
+                          ),
+                        ),
+                    ],
+                  );
+                },
+                validator: (value) => _validateNotifications(value ?? false),
               ),
 
               const SizedBox(height: 24),
