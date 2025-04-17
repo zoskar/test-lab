@@ -32,6 +32,14 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   leancode_lint: ^15.1.0
+  patrol: ^3.15.1
+
+patrol:
+  app_name: Test Lab
+  android:
+    package_name: io.github.zoskar.testlab
+  ios:
+    bundle_id: io.github.zoskar.testlab
 
 flutter:
   uses-material-design: true
