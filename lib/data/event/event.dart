@@ -22,7 +22,11 @@ class Event {
       eventType: map['eventType'] as String,
       isOnline: map['isOnline'] as bool,
       isRecorded: map['isRecorded'] as bool,
-      guestCount: map['guestCount'] as double,
+      // Handle different types safely and convert to int
+      guestCount:
+          map['guestCount'] is double
+              ? (map['guestCount'] as double).toInt()
+              : map['guestCount'] as int,
       date: map['date'] as String,
       time: map['time'] as String,
       themeColor: Color(map['themeColor'] as int),
@@ -43,7 +47,7 @@ class Event {
   final bool isRecorded;
 
   /// The expected number of guests/attendees
-  final double guestCount;
+  final int guestCount;
 
   /// The date of the event in YYYY-MM-DD format
   final String date;
@@ -70,30 +74,5 @@ class Event {
       'themeColor': themeColor.value,
       'notificationsEnabled': notificationsEnabled,
     };
-  }
-
-  /// Creates a copy of this event with specified fields replaced with new values
-  Event copyWith({
-    String? name,
-    String? eventType,
-    bool? isOnline,
-    bool? isRecorded,
-    double? guestCount,
-    String? date,
-    String? time,
-    Color? themeColor,
-    bool? notificationsEnabled,
-  }) {
-    return Event(
-      name: name ?? this.name,
-      eventType: eventType ?? this.eventType,
-      isOnline: isOnline ?? this.isOnline,
-      isRecorded: isRecorded ?? this.isRecorded,
-      guestCount: guestCount ?? this.guestCount,
-      date: date ?? this.date,
-      time: time ?? this.time,
-      themeColor: themeColor ?? this.themeColor,
-      notificationsEnabled: notificationsEnabled ?? this.notificationsEnabled,
-    );
   }
 }

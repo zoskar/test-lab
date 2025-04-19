@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
-import 'event.dart';
-import 'form_success_page.dart';
+import 'package:test_lab/features/form/forms_list_page.dart';
+
+import '../../data/event/event.dart';
+import '../../data/event/event_cubit.dart';
+import '../../data/event/event_repository.dart';
 
 class FormPage extends StatefulWidget {
   const FormPage({super.key});
@@ -12,11 +16,12 @@ class FormPage extends StatefulWidget {
 
 class _FormPageState extends State<FormPage> {
   final _formKey = GlobalKey<FormState>();
+  late final EventCubit _eventCubit;
 
   String _eventType = 'Conference';
   bool _isOnline = false;
   bool _isRecorded = false;
-  double _guestCount = 50;
+  int _guestCount = 50; // Changed from double to int
   String _selectedTime = 'Select Time';
   String _selectedDate = 'Select Date';
   Color _selectedColor = Colors.blue;
@@ -28,12 +33,16 @@ class _FormPageState extends State<FormPage> {
 
   final List<String> _eventTypes = ['Conference', 'Workshop', 'Meetup'];
 
-  static const guestOptions = [5.0, 10.0, 20.0, 50.0, 100.0, 200.0, 500.0];
+  // Changed from double to int values
+  static const guestOptions = [5, 10, 20, 50, 100, 200, 500];
   static const guestLabels = ['5', '10', '20', '50', '100', '200', '500+'];
 
   @override
   void initState() {
     super.initState();
+    // Initialize the Cubit with the repository
+    _eventCubit = EventCubit(eventRepository: EventRepository());
+
     _nameController.addListener(() => setState(() {}));
 
     final tomorrow = DateTime.now().add(const Duration(days: 1));
@@ -55,6 +64,7 @@ class _FormPageState extends State<FormPage> {
     _nameController.dispose();
     _dateController.dispose();
     _timeController.dispose();
+    _eventCubit.close();
     super.dispose();
   }
 
@@ -137,9 +147,10 @@ class _FormPageState extends State<FormPage> {
         themeColor: _selectedColor,
         notificationsEnabled: _notificationsEnabled,
       );
+      _eventCubit.saveEvent(event);
 
       Navigator.of(context).push(
-        MaterialPageRoute<void>(builder: (context) => const FormSuccessPage()),
+        MaterialPageRoute<void>(builder: (context) => const FormsListPage()),
       );
     }
   }
@@ -148,139 +159,153 @@ class _FormPageState extends State<FormPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Event Creation Form')),
-      body: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Form(
-          key: _formKey,
-          child: ListView(
-            children: [
-              TextFormField(
-                controller: _nameController,
-                decoration: const InputDecoration(labelText: 'Event Name*'),
-                onSaved: (value) {},
-              ),
-
-              const SizedBox(height: 16),
-
-              DropdownButtonFormField<String>(
-                value: _eventType,
-                decoration: const InputDecoration(labelText: 'Event Type'),
-                items:
-                    _eventTypes
-                        .map(
-                          (type) =>
-                              DropdownMenuItem(value: type, child: Text(type)),
-                        )
-                        .toList(),
-                onChanged: (value) => setState(() => _eventType = value!),
-              ),
-
-              const SizedBox(height: 16),
-
-              CheckboxListTile(
-                title: const Text('Is this an online event?'),
-                value: _isOnline,
-                onChanged: (value) => setState(() => _isOnline = value!),
-              ),
-
-              CheckboxListTile(
-                title: const Text('Is this event recorded?'),
-                value: _isRecorded,
-                onChanged: (value) => setState(() => _isRecorded = value!),
-              ),
-
-              const SizedBox(height: 16),
-
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text('Number of Guests'),
-                  Slider(
-                    value: guestOptions.indexOf(_guestCount).toDouble(),
-                    max: (guestOptions.length - 1).toDouble(),
-                    divisions: guestOptions.length - 1,
-                    label:
-                        _guestCount >= 500
-                            ? '500+'
-                            : _guestCount.round().toString(),
-                    onChanged:
-                        (value) => setState(
-                          () => _guestCount = guestOptions[value.round()],
-                        ),
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children:
-                        guestLabels
-                            .map(
-                              (label) =>
-                                  Expanded(child: Center(child: Text(label))),
-                            )
-                            .toList(),
-                  ),
-                ],
-              ),
-
-              const SizedBox(height: 16),
-
-              TextFormField(
-                decoration: const InputDecoration(
-                  labelText: 'Event Date',
-                  suffixIcon: Icon(Icons.calendar_today),
+      body: BlocListener<EventCubit, EventState>(
+        bloc: _eventCubit,
+        listener: (context, state) {
+          if (state is EventSaved) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(content: Text('Event saved successfully!')),
+            );
+          } else if (state is EventError) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text('Failed to save event: ${state.error}')),
+            );
+          }
+        },
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: Form(
+            key: _formKey,
+            child: ListView(
+              children: [
+                TextFormField(
+                  controller: _nameController,
+                  decoration: const InputDecoration(labelText: 'Event Name*'),
+                  onSaved: (value) {},
                 ),
-                controller: _dateController,
-                readOnly: true,
-                onTap: () => _selectDate(context),
-              ),
 
-              const SizedBox(height: 16),
+                const SizedBox(height: 16),
 
-              TextFormField(
-                decoration: const InputDecoration(
-                  labelText: 'Event Time',
-                  suffixIcon: Icon(Icons.access_time),
+                DropdownButtonFormField<String>(
+                  value: _eventType,
+                  decoration: const InputDecoration(labelText: 'Event Type'),
+                  items:
+                      _eventTypes
+                          .map(
+                            (type) => DropdownMenuItem(
+                              value: type,
+                              child: Text(type),
+                            ),
+                          )
+                          .toList(),
+                  onChanged: (value) => setState(() => _eventType = value!),
                 ),
-                controller: _timeController,
-                readOnly: true,
-                onTap: () => _selectTime(context),
-              ),
 
-              const SizedBox(height: 16),
+                const SizedBox(height: 16),
 
-              ListTile(
-                title: const Text('Event Theme Color'),
-                trailing: CircleAvatar(backgroundColor: _selectedColor),
-                onTap: () => _selectColor(context),
-              ),
+                CheckboxListTile(
+                  title: const Text('Is this an online event?'),
+                  value: _isOnline,
+                  onChanged: (value) => setState(() => _isOnline = value!),
+                ),
 
-              const SizedBox(height: 16),
+                CheckboxListTile(
+                  title: const Text('Is this event recorded?'),
+                  value: _isRecorded,
+                  onChanged: (value) => setState(() => _isRecorded = value!),
+                ),
 
-              FormField<bool>(
-                builder:
-                    (state) => SwitchListTile(
-                      title: const Text('Enable Notifications'),
-                      value: _notificationsEnabled,
-                      onChanged: (value) {
-                        setState(() => _notificationsEnabled = value);
-                        state.didChange(value);
-                      },
+                const SizedBox(height: 16),
+
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text('Number of Guests'),
+                    Slider(
+                      value: guestOptions.indexOf(_guestCount).toDouble(),
+                      max: (guestOptions.length - 1).toDouble(),
+                      divisions: guestOptions.length - 1,
+                      label:
+                          _guestCount >= 500 ? '500+' : _guestCount.toString(),
+                      onChanged:
+                          (value) => setState(
+                            () => _guestCount = guestOptions[value.round()],
+                          ),
                     ),
-              ),
-
-              const SizedBox(height: 24),
-
-              ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor:
-                      _isFormValid() ? Colors.lightBlue : Colors.grey,
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children:
+                          guestLabels
+                              .map(
+                                (label) =>
+                                    Expanded(child: Center(child: Text(label))),
+                              )
+                              .toList(),
+                    ),
+                  ],
                 ),
-                onPressed: _isFormValid() ? _saveForm : null,
-                child: const Text(
-                  'Save Event',
-                  style: TextStyle(color: Colors.white),
+
+                const SizedBox(height: 16),
+
+                TextFormField(
+                  decoration: const InputDecoration(
+                    labelText: 'Event Date',
+                    suffixIcon: Icon(Icons.calendar_today),
+                  ),
+                  controller: _dateController,
+                  readOnly: true,
+                  onTap: () => _selectDate(context),
                 ),
-              ),
-            ],
+
+                const SizedBox(height: 16),
+
+                TextFormField(
+                  decoration: const InputDecoration(
+                    labelText: 'Event Time',
+                    suffixIcon: Icon(Icons.access_time),
+                  ),
+                  controller: _timeController,
+                  readOnly: true,
+                  onTap: () => _selectTime(context),
+                ),
+
+                const SizedBox(height: 16),
+
+                ListTile(
+                  title: const Text('Event Theme Color'),
+                  trailing: CircleAvatar(backgroundColor: _selectedColor),
+                  onTap: () => _selectColor(context),
+                ),
+
+                const SizedBox(height: 16),
+
+                FormField<bool>(
+                  builder:
+                      (state) => SwitchListTile(
+                        title: const Text('Enable Notifications'),
+                        value: _notificationsEnabled,
+                        onChanged: (value) {
+                          setState(() => _notificationsEnabled = value);
+                          state.didChange(value);
+                        },
+                      ),
+                ),
+
+                const SizedBox(height: 24),
+
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor:
+                        _isFormValid() ? Colors.lightBlue : Colors.grey,
+                  ),
+                  onPressed: _isFormValid() ? _saveForm : null,
+                  child: const Text(
+                    'Save Event',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),
