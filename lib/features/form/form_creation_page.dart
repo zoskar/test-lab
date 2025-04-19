@@ -7,21 +7,21 @@ import '../../data/event/event.dart';
 import '../../data/event/event_cubit.dart';
 import '../../data/event/event_repository.dart';
 
-class FormPage extends StatefulWidget {
-  const FormPage({super.key});
+class EventForm extends StatefulWidget {
+  const EventForm({super.key});
 
   @override
-  State<FormPage> createState() => _FormPageState();
+  State<EventForm> createState() => _EventFormState();
 }
 
-class _FormPageState extends State<FormPage> {
+class _EventFormState extends State<EventForm> {
   final _formKey = GlobalKey<FormState>();
   late final EventCubit _eventCubit;
 
   String _eventType = 'Conference';
   bool _isOnline = false;
   bool _isRecorded = false;
-  int _guestCount = 50; // Changed from double to int
+  int _guestCount = 50;
   String _selectedTime = 'Select Time';
   String _selectedDate = 'Select Date';
   Color _selectedColor = Colors.blue;
@@ -33,14 +33,12 @@ class _FormPageState extends State<FormPage> {
 
   final List<String> _eventTypes = ['Conference', 'Workshop', 'Meetup'];
 
-  // Changed from double to int values
   static const guestOptions = [5, 10, 20, 50, 100, 200, 500];
   static const guestLabels = ['5', '10', '20', '50', '100', '200', '500+'];
 
   @override
   void initState() {
     super.initState();
-    // Initialize the Cubit with the repository
     _eventCubit = EventCubit(eventRepository: EventRepository());
 
     _nameController.addListener(() => setState(() {}));

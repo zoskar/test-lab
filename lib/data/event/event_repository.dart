@@ -52,4 +52,12 @@ class EventRepository {
       throw Exception('Failed to retrieve event: $err');
     }
   }
+
+  Future<void> deleteEvent(String eventId) async {
+    try {
+      await _eventsRef.child(eventId).remove();
+    } catch (err) {
+      throw Exception('Failed to delete event: $err');
+    }
+  }
 }

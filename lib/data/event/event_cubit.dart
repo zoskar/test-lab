@@ -34,6 +34,18 @@ class EventCubit extends Cubit<EventState> {
     }
   }
 
+  Future<void> deleteEvent(String eventId) async {
+    try {
+      emit(const EventDeleting());
+
+      await _eventRepository.deleteEvent(eventId);
+
+      emit(EventDeleted(eventId: eventId));
+    } catch (err) {
+      emit(EventError(error: err.toString()));
+    }
+  }
+
   void reset() {
     emit(const EventInitial());
   }
@@ -73,6 +85,18 @@ class EventSaved extends EventState {
 
   @override
   List<Object?> get props => [eventId, event];
+}
+
+class EventDeleting extends EventState {
+  const EventDeleting();
+}
+
+class EventDeleted extends EventState {
+  const EventDeleted({required this.eventId});
+  final String eventId;
+
+  @override
+  List<Object?> get props => [eventId];
 }
 
 class EventError extends EventState {
