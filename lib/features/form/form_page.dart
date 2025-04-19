@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
+import 'event.dart';
 import 'form_success_page.dart';
 
 class FormPage extends StatefulWidget {
@@ -123,6 +124,20 @@ class _FormPageState extends State<FormPage> {
   void _saveForm() {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
+
+      // Create an Event object with the form data
+      final event = Event(
+        name: _nameController.text,
+        eventType: _eventType,
+        isOnline: _isOnline,
+        isRecorded: _isRecorded,
+        guestCount: _guestCount,
+        date: _selectedDate,
+        time: _selectedTime,
+        themeColor: _selectedColor,
+        notificationsEnabled: _notificationsEnabled,
+      );
+
       Navigator.of(context).push(
         MaterialPageRoute<void>(builder: (context) => const FormSuccessPage()),
       );
