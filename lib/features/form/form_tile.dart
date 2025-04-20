@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:test_lab/features/form/forms_list_page.dart';
+import 'package:test_lab/features/form/event_list_page.dart';
 import 'package:test_lab/widgets/tile.dart';
 
 class FormsTile extends StatelessWidget {
@@ -13,7 +13,7 @@ class FormsTile extends StatelessWidget {
       onTap: () {
         Navigator.push(
           context,
-          MaterialPageRoute<void>(builder: (context) => const FormsListPage()),
+          MaterialPageRoute<void>(builder: (context) => const EventListPage()),
         );
       },
     );

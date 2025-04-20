@@ -4,16 +4,16 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../data/event/event.dart';
 import '../../data/event/event_cubit.dart';
 import '../../data/event/event_repository.dart';
-import 'form_creation_page.dart';
+import 'event_creation_page.dart';
 
-class FormsListPage extends StatefulWidget {
-  const FormsListPage({super.key});
+class EventListPage extends StatefulWidget {
+  const EventListPage({super.key});
 
   @override
-  State<FormsListPage> createState() => _FormsListPageState();
+  State<EventListPage> createState() => _EventListPageState();
 }
 
-class _FormsListPageState extends State<FormsListPage> {
+class _EventListPageState extends State<EventListPage> {
   late final EventCubit _eventCubit;
 
   @override
