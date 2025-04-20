@@ -73,11 +73,12 @@ class _FormsListPageState extends State<FormsListPage> {
       child: ListTile(
         title: Text(event.name),
         subtitle: Text('${event.eventType} • ${event.date} at ${event.time}'),
-        leading: CircleAvatar(
-          backgroundColor: event.themeColor,
-          child: Text(
-            event.name[0].toUpperCase(),
-            style: const TextStyle(color: Colors.white),
+        leading: Container(
+          width: 40,
+          height: 40,
+          decoration: BoxDecoration(
+            color: event.themeColor,
+            shape: BoxShape.circle,
           ),
         ),
         trailing: Row(
