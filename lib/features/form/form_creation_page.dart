@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
-import 'package:test_lab/features/form/forms_list_page.dart';
 
 import '../../data/event/event.dart';
 import '../../data/event/event_cubit.dart';
 import '../../data/event/event_repository.dart';
 
 class EventForm extends StatefulWidget {
-  const EventForm({super.key});
+  const EventForm({super.key, this.eventToEdit, this.eventId});
+
+  final Event? eventToEdit;
+  final String? eventId;
 
   @override
   State<EventForm> createState() => _EventFormState();
@@ -18,43 +20,66 @@ class _EventFormState extends State<EventForm> {
   final _formKey = GlobalKey<FormState>();
   late final EventCubit _eventCubit;
 
-  String _eventType = 'Conference';
-  bool _isOnline = false;
-  bool _isRecorded = false;
-  int _guestCount = 50;
-  String _selectedTime = 'Select Time';
-  String _selectedDate = 'Select Date';
-  Color _selectedColor = Colors.blue;
-  bool _notificationsEnabled = false;
+  late String _eventType;
+  late bool _isOnline;
+  late bool _isRecorded;
+  late int _guestCount;
+  late String _selectedTime;
+  late String _selectedDate;
+  late Color _selectedColor;
+  late bool _notificationsEnabled;
 
-  final TextEditingController _nameController = TextEditingController();
-  final TextEditingController _dateController = TextEditingController();
-  final TextEditingController _timeController = TextEditingController();
+  late final TextEditingController _nameController;
+  late final TextEditingController _dateController;
+  late final TextEditingController _timeController;
 
   final List<String> _eventTypes = ['Conference', 'Workshop', 'Meetup'];
 
   static const guestOptions = [5, 10, 20, 50, 100, 200, 500];
   static const guestLabels = ['5', '10', '20', '50', '100', '200', '500+'];
 
+  bool get _isEditing => widget.eventToEdit != null && widget.eventId != null;
+
   @override
   void initState() {
     super.initState();
     _eventCubit = EventCubit(eventRepository: EventRepository());
 
+    // Initialize with default values or values from the event to edit
+    _nameController = TextEditingController(
+      text: widget.eventToEdit?.name ?? '',
+    );
+    _dateController = TextEditingController();
+    _timeController = TextEditingController();
+
+    _eventType = widget.eventToEdit?.eventType ?? 'Conference';
+    _isOnline = widget.eventToEdit?.isOnline ?? false;
+    _isRecorded = widget.eventToEdit?.isRecorded ?? false;
+    _guestCount = widget.eventToEdit?.guestCount ?? 50;
+    _selectedColor = widget.eventToEdit?.themeColor ?? Colors.blue;
+    _notificationsEnabled = widget.eventToEdit?.notificationsEnabled ?? false;
+
     _nameController.addListener(() => setState(() {}));
 
-    final tomorrow = DateTime.now().add(const Duration(days: 1));
-    _selectedDate = _formatDate(tomorrow);
-    _dateController.text = _selectedDate;
+    if (widget.eventToEdit != null) {
+      _selectedDate = widget.eventToEdit!.date;
+      _dateController.text = _selectedDate;
+      _selectedTime = widget.eventToEdit!.time;
+      _timeController.text = _selectedTime;
+    } else {
+      final tomorrow = DateTime.now().add(const Duration(days: 1));
+      _selectedDate = _formatDate(tomorrow);
+      _dateController.text = _selectedDate;
 
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (mounted) {
-        setState(() {
-          _selectedTime = TimeOfDay.now().format(context);
-          _timeController.text = _selectedTime;
-        });
-      }
-    });
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted) {
+          setState(() {
+            _selectedTime = TimeOfDay.now().format(context);
+            _timeController.text = _selectedTime;
+          });
+        }
+      });
+    }
   }
 
   @override
@@ -75,9 +100,26 @@ class _EventFormState extends State<EventForm> {
   }
 
   Future<void> _selectDate(BuildContext context) async {
+    // If editing, parse the existing date to use as initial value
+    DateTime initialDate;
+    if (widget.eventToEdit != null) {
+      final parts = _selectedDate.split('-');
+      if (parts.length == 3) {
+        initialDate = DateTime(
+          int.parse(parts[0]),
+          int.parse(parts[1]),
+          int.parse(parts[2]),
+        );
+      } else {
+        initialDate = DateTime.now().add(const Duration(days: 1));
+      }
+    } else {
+      initialDate = DateTime.now().add(const Duration(days: 1));
+    }
+
     final DateTime? picked = await showDatePicker(
       context: context,
-      initialDate: DateTime.now().add(const Duration(days: 1)),
+      initialDate: initialDate,
       firstDate: DateTime(2000),
       lastDate: DateTime(2100),
     );
@@ -90,9 +132,28 @@ class _EventFormState extends State<EventForm> {
   }
 
   Future<void> _selectTime(BuildContext context) async {
+    // If editing, parse the existing time to use as initial value
+    TimeOfDay initialTime;
+    if (widget.eventToEdit != null) {
+      try {
+        final parts = _selectedTime.split(':');
+        if (parts.length == 2) {
+          final hour = int.parse(parts[0]);
+          final minute = int.parse(parts[1]);
+          initialTime = TimeOfDay(hour: hour, minute: minute);
+        } else {
+          initialTime = TimeOfDay.now();
+        }
+      } catch (err) {
+        initialTime = TimeOfDay.now();
+      }
+    } else {
+      initialTime = TimeOfDay.now();
+    }
+
     final TimeOfDay? picked = await showTimePicker(
       context: context,
-      initialTime: TimeOfDay.now(),
+      initialTime: initialTime,
     );
     if (picked != null) {
       setState(() {
@@ -143,29 +204,41 @@ class _EventFormState extends State<EventForm> {
         themeColor: _selectedColor,
         notificationsEnabled: _notificationsEnabled,
       );
-      _eventCubit.saveEvent(event);
 
-      Navigator.of(context).push(
-        MaterialPageRoute<void>(builder: (context) => const FormsListPage()),
-      );
+      // Update or save depending on whether we're editing
+      if (_isEditing) {
+        _eventCubit.updateEvent(widget.eventId!, event);
+      } else {
+        _eventCubit.saveEvent(event);
+      }
+
+      Navigator.of(context).pop();
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Event Creation Form')),
+      appBar: AppBar(
+        title: Text(_isEditing ? 'Edit Event' : 'Event Creation Form'),
+      ),
       body: BlocListener<EventCubit, EventState>(
         bloc: _eventCubit,
         listener: (context, state) {
+          var message = '';
           if (state is EventSaved) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(content: Text('Event saved successfully!')),
-            );
+            message = 'Event saved successfully!';
+          } else if (state is EventUpdated) {
+            message = 'Event updated successfully!';
           } else if (state is EventError) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text('Failed to save event: ${state.error}')),
-            );
+            message =
+                'Failed to ${_isEditing ? 'update' : 'save'} event: ${state.error}';
+          }
+
+          if (message.isNotEmpty) {
+            ScaffoldMessenger.of(
+              context,
+            ).showSnackBar(SnackBar(content: Text(message)));
           }
         },
         child: Padding(
@@ -295,9 +368,9 @@ class _EventFormState extends State<EventForm> {
                         _isFormValid() ? Colors.lightBlue : Colors.grey,
                   ),
                   onPressed: _isFormValid() ? _saveForm : null,
-                  child: const Text(
-                    'Save Event',
-                    style: TextStyle(color: Colors.white),
+                  child: Text(
+                    _isEditing ? 'Update Event' : 'Save Event',
+                    style: const TextStyle(color: Colors.white),
                   ),
                 ),
               ],

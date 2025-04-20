@@ -34,6 +34,18 @@ class EventCubit extends Cubit<EventState> {
     }
   }
 
+  Future<void> updateEvent(String eventId, Event event) async {
+    try {
+      emit(const EventUpdating());
+
+      await _eventRepository.updateEvent(eventId, event);
+
+      emit(EventUpdated(eventId: eventId, event: event));
+    } catch (err) {
+      emit(EventError(error: err.toString()));
+    }
+  }
+
   Future<void> deleteEvent(String eventId) async {
     try {
       emit(const EventDeleting());
@@ -80,6 +92,19 @@ class EventSaving extends EventState {
 
 class EventSaved extends EventState {
   const EventSaved({required this.eventId, required this.event});
+  final String eventId;
+  final Event event;
+
+  @override
+  List<Object?> get props => [eventId, event];
+}
+
+class EventUpdating extends EventState {
+  const EventUpdating();
+}
+
+class EventUpdated extends EventState {
+  const EventUpdated({required this.eventId, required this.event});
   final String eventId;
   final Event event;
 

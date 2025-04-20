@@ -19,6 +19,14 @@ class EventRepository {
     }
   }
 
+  Future<void> updateEvent(String eventId, Event event) async {
+    try {
+      await _eventsRef.child(eventId).update(event.toMap());
+    } catch (err) {
+      throw Exception('Failed to update event: $err');
+    }
+  }
+
   Future<Map<String, Event>> getEvents() async {
     try {
       final snapshot = await _eventsRef.get();

@@ -67,6 +67,15 @@ class _FormsListPageState extends State<FormsListPage> {
     );
   }
 
+  void _navigateToEditEvent(String eventId, Event event) {
+    Navigator.push(
+      context,
+      MaterialPageRoute<void>(
+        builder: (context) => EventForm(eventId: eventId, eventToEdit: event),
+      ),
+    ).then((_) => _eventCubit.loadEvents());
+  }
+
   Widget _buildEventCard(String eventId, Event event) {
     return Card(
       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
@@ -91,9 +100,26 @@ class _FormsListPageState extends State<FormsListPage> {
                 fontWeight: FontWeight.bold,
               ),
             ),
-            IconButton(
-              icon: const Icon(Icons.delete_outline, color: Colors.red),
-              onPressed: () => _deleteEvent(eventId, event.name),
+            PopupMenuButton<String>(
+              icon: const Icon(Icons.more_vert),
+              onSelected: (value) {
+                if (value == 'edit') {
+                  _navigateToEditEvent(eventId, event);
+                } else if (value == 'delete') {
+                  _deleteEvent(eventId, event.name);
+                }
+              },
+              itemBuilder:
+                  (context) => [
+                    const PopupMenuItem<String>(
+                      value: 'edit',
+                      child: Text('Edit'),
+                    ),
+                    const PopupMenuItem<String>(
+                      value: 'delete',
+                      child: Text('Delete'),
+                    ),
+                  ],
             ),
           ],
         ),
@@ -120,8 +146,7 @@ class _FormsListPageState extends State<FormsListPage> {
       itemCount: events.length,
       itemBuilder: (context, index) {
         final eventId = events.keys.elementAt(index);
-        final event =
-            events[eventId]!; // Add null assertion here since we know the key exists
+        final event = events[eventId]!;
         return _buildEventCard(eventId, event);
       },
     );
@@ -136,7 +161,7 @@ class _FormsListPageState extends State<FormsListPage> {
         child: BlocConsumer<EventCubit, EventState>(
           bloc: _eventCubit,
           listener: (context, state) {
-            if (state is EventDeleted) {
+            if (state is EventDeleted || state is EventUpdated) {
               _eventCubit.loadEvents();
             }
           },
