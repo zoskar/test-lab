@@ -103,30 +103,28 @@ class _EventFormState extends State<EventForm> {
   }
 
   Future<void> _selectColor(BuildContext context) async {
-    final Color? picked = await showDialog<Color>(
+    await showDialog<void>(
       context: context,
       builder: (context) {
-        Color tempColor = _selectedColor;
         return AlertDialog(
           title: const Text('Pick a color'),
           content: SingleChildScrollView(
             child: BlockPicker(
               pickerColor: _selectedColor,
-              onColorChanged: (color) => tempColor = color,
+              onColorChanged: (color) {
+                setState(() => _selectedColor = color);
+              },
             ),
           ),
           actions: [
             TextButton(
-              onPressed: () => Navigator.of(context).pop(tempColor),
-              child: const Text('Select'),
+              onPressed: () => Navigator.of(context).pop(),
+              child: const Text('Done'),
             ),
           ],
         );
       },
     );
-    if (picked != null) {
-      setState(() => _selectedColor = picked);
-    }
   }
 
   void _saveForm() {

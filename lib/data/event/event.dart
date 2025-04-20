@@ -71,7 +71,7 @@ class Event {
       'guestCount': guestCount,
       'date': date,
       'time': time,
-      'themeColor': themeColor.value,
+      'themeColor': themeColor.toARGB32(),
       'notificationsEnabled': notificationsEnabled,
     };
   }
