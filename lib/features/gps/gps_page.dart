@@ -4,8 +4,6 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:location/location.dart';
 
-// TODO refactor this page
-
 class GPSPage extends StatefulWidget {
   const GPSPage({super.key});
 
