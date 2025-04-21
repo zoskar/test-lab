@@ -48,3 +48,11 @@ abstract final class NotificationsPageKeys {
     'notificationGoBackButton',
   );
 }
+
+class _QRPageKey extends ValueKey<String> {
+  const _QRPageKey(String value) : super('qrPage_$value');
+}
+
+abstract final class QRPageKeys {
+  static const loadedImage = _QRPageKey('loadedImage');
+}

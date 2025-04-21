@@ -1,0 +1,16 @@
+import 'package:patrol/patrol.dart';
+import 'common.dart';
+import 'pages/home_pom.dart';
+import 'pages/qr_code_pom.dart';
+
+void main() {
+  patrolTest('tests QR code scanning', ($) async {
+    final homePage = HomePageObject($);
+    final qrCodePage = QRCodePageObject($);
+
+    await Common.openApp($);
+    await homePage.openQrScanner();
+    await $.native2.grantPermissionOnlyThisTime();
+    await qrCodePage.checkIfImageLoaded();
+  });
+}
