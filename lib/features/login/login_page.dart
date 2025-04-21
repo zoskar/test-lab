@@ -71,7 +71,6 @@ class LoginPage extends StatelessWidget {
                     obscureText: true,
                   ),
                   const SizedBox(height: 32),
-                  // TODO add shorter timeout than 30s
                   if (state is AuthLoggingInState)
                     const CircularProgressIndicator()
                   else

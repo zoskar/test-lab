@@ -3,33 +3,29 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../data/event/event.dart';
 import '../../data/event/event_cubit.dart';
-import '../../data/event/event_repository.dart';
-import 'form_creation_page.dart';
+import 'event_creation_page.dart';
 
-class FormsListPage extends StatefulWidget {
-  const FormsListPage({super.key});
+class EventListPage extends StatefulWidget {
+  const EventListPage({super.key});
 
   @override
-  State<FormsListPage> createState() => _FormsListPageState();
+  State<EventListPage> createState() => _EventListPageState();
 }
 
-class _FormsListPageState extends State<FormsListPage> {
-  late final EventCubit _eventCubit;
-
-  @override
-  void initState() {
-    super.initState();
-    _eventCubit = EventCubit(eventRepository: EventRepository());
-    _eventCubit.loadEvents();
+class _EventListPageState extends State<EventListPage> {
+  Future<void> _refreshEvents() async {
+    await context.read<EventCubit>().loadEvents();
   }
 
-  Future<void> _refreshEvents() async {
-    await _eventCubit.loadEvents();
+  Future<void> _refreshEventsAfterNavigation(bool? result) async {
+    if (result ?? false) {
+      await Future<void>.delayed(const Duration(milliseconds: 100));
+      await _refreshEvents();
+    }
   }
 
   @override
   void dispose() {
-    _eventCubit.close();
     super.dispose();
   }
 
@@ -67,13 +63,15 @@ class _FormsListPageState extends State<FormsListPage> {
     );
   }
 
-  void _navigateToEditEvent(String eventId, Event event) {
-    Navigator.push(
+  Future<void> _navigateToEditEvent(String eventId, Event event) async {
+    final result = await Navigator.push(
       context,
-      MaterialPageRoute<void>(
+      MaterialPageRoute<bool>(
         builder: (context) => EventForm(eventId: eventId, eventToEdit: event),
       ),
-    ).then((_) => _eventCubit.loadEvents());
+    );
+
+    await _refreshEventsAfterNavigation(result);
   }
 
   Widget _buildEventCard(String eventId, Event event) {
@@ -128,9 +126,13 @@ class _FormsListPageState extends State<FormsListPage> {
   }
 
   Future<void> _deleteEvent(String eventId, String eventName) async {
+    final eventCubit = context.read<EventCubit>();
     final confirmDelete = await _showDeleteConfirmDialog(context, eventName);
     if (confirmDelete ?? false) {
-      await _eventCubit.deleteEvent(eventId);
+      if (!mounted) {
+        return;
+      }
+      await eventCubit.deleteEvent(eventId);
     }
   }
 
@@ -159,10 +161,11 @@ class _FormsListPageState extends State<FormsListPage> {
       body: RefreshIndicator(
         onRefresh: _refreshEvents,
         child: BlocConsumer<EventCubit, EventState>(
-          bloc: _eventCubit,
           listener: (context, state) {
-            if (state is EventDeleted || state is EventUpdated) {
-              _eventCubit.loadEvents();
+            if (state is EventDeleted ||
+                state is EventUpdated ||
+                state is EventSaved) {
+              context.read<EventCubit>().loadEvents();
             }
           },
           builder: (context, state) {
@@ -180,11 +183,13 @@ class _FormsListPageState extends State<FormsListPage> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.push(
+        onPressed: () async {
+          final result = await Navigator.push(
             context,
-            MaterialPageRoute<void>(builder: (context) => const EventForm()),
-          ).then((_) => _eventCubit.loadEvents());
+            MaterialPageRoute<bool>(builder: (context) => const EventForm()),
+          );
+
+          await _refreshEventsAfterNavigation(result);
         },
         child: const Icon(Icons.add),
       ),

@@ -35,12 +35,8 @@ class AuthCubit extends Cubit<AuthState> {
   }
 
   Future<void> logout() async {
-    try {
-      await _firebaseAuth.signOut();
-      emit(AuthLoggedOutState());
-    } catch (_) {
-      // Handle logout failure if necessary
-    }
+    await _firebaseAuth.signOut();
+    emit(AuthLoggedOutState());
   }
 
   Future<void> signInWithGoogle() async {

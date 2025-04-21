@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:test_lab/features/form/forms_list_page.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:test_lab/data/event/event_cubit.dart';
+import 'package:test_lab/data/event/event_repository.dart';
+import 'package:test_lab/features/form/event_list_page.dart';
 import 'package:test_lab/widgets/tile.dart';
 
 class FormsTile extends StatelessWidget {
@@ -10,10 +13,19 @@ class FormsTile extends StatelessWidget {
     return TLTile(
       icon: Icons.description,
       text: 'Forms',
-      onTap: () {
-        Navigator.push(
+      onTap: () async {
+        await Navigator.push(
           context,
-          MaterialPageRoute<void>(builder: (context) => const FormsListPage()),
+          MaterialPageRoute<void>(
+            builder:
+                (context) => BlocProvider(
+                  create:
+                      (context) =>
+                          EventCubit(eventRepository: EventRepository())
+                            ..loadEvents(),
+                  child: const EventListPage(),
+                ),
+          ),
         );
       },
     );
