@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:test_lab/keys.dart';
 import 'connection_cubit.dart';
 
 class ConnectionPage extends StatelessWidget {
@@ -67,6 +68,7 @@ class ConnectionPage extends StatelessWidget {
         const SizedBox(height: 20),
         const Text(
           'Connected',
+          key: ConnectionPageKeys.connectedStatus,
           style: TextStyle(
             fontSize: 24,
             fontWeight: FontWeight.bold,
@@ -99,6 +101,7 @@ class ConnectionPage extends StatelessWidget {
         const SizedBox(height: 20),
         const Text(
           'Disconnected',
+          key: ConnectionPageKeys.disconnectedStatus,
           style: TextStyle(
             fontSize: 24,
             fontWeight: FontWeight.bold,

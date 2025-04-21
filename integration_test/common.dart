@@ -13,3 +13,8 @@ abstract class Common {
     await $.pumpWidgetAndSettle(const TestLabApp());
   }
 }
+
+const nativeConfig = NativeAutomatorConfig(
+  packageName: 'io.github.zoskar.testlab',
+  bundleId: 'io.github.zoskar.testlab',
+);

@@ -4,7 +4,7 @@ import 'pages/home_pom.dart';
 import 'pages/login_pom.dart';
 
 void main() {
-  patrolTest('tests email password login', ($) async {
+  patrolTest('tests Google login', ($) async {
     final loginPage = LoginPageObject($);
     final homePage = HomePageObject($);
 

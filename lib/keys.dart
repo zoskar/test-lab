@@ -26,3 +26,12 @@ abstract final class LoginPageKeys {
   static const goBackButton = _LoginPageKey('goBackButton');
   static const logoutButton = _LoginPageKey('logoutButton');
 }
+
+class _ConnectionPageKey extends ValueKey<String> {
+  const _ConnectionPageKey(String value) : super('connectionPage_$value');
+}
+
+abstract final class ConnectionPageKeys {
+  static const connectedStatus = _ConnectionPageKey('connectedStatus');
+  static const disconnectedStatus = _ConnectionPageKey('disconnectedStatus');
+}
