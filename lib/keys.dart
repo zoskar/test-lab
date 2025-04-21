@@ -35,3 +35,16 @@ abstract final class ConnectionPageKeys {
   static const connectedStatus = _ConnectionPageKey('connectedStatus');
   static const disconnectedStatus = _ConnectionPageKey('disconnectedStatus');
 }
+
+class _NotificationsPageKey extends ValueKey<String> {
+  const _NotificationsPageKey(String value) : super('notificationsPage_$value');
+}
+
+abstract final class NotificationsPageKeys {
+  static const requestNotificationButton = _NotificationsPageKey(
+    'requestNotificationButton',
+  );
+  static const notificationGoBackButton = _NotificationsPageKey(
+    'notificationGoBackButton',
+  );
+}

@@ -1,6 +1,7 @@
 import 'package:app_settings/app_settings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:test_lab/keys.dart';
 import 'notifications_success_page.dart';
 
 // TODO refactor this page
@@ -85,6 +86,7 @@ class _NotificationsPageState extends State<NotificationsPage> {
     return _controller.isLoading
         ? const CircularProgressIndicator()
         : ElevatedButton(
+          key: NotificationsPageKeys.requestNotificationButton,
           onPressed:
               _controller.permissionGranted
                   ? _controller.showNotification
