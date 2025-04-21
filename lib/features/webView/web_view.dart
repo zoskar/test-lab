@@ -15,16 +15,22 @@ class _WebViewPageState extends State<WebViewPage> {
   @override
   void initState() {
     super.initState();
-    controller = WebViewController()
-      ..setJavaScriptMode(JavaScriptMode.unrestricted)
-      ..setNavigationDelegate(
-        NavigationDelegate(
-          onPageStarted: (_) => setState(() => isLoading = true),
-          onPageFinished: (_) => setState(() => isLoading = false),
-          onWebResourceError: (error) => debugPrint('WebView error: ${error.description}'),
-        ),
-      )
-      ..loadRequest(Uri.parse('https://todomvc.com/examples/react/dist/'));
+    controller =
+        WebViewController()
+          ..setJavaScriptMode(JavaScriptMode.unrestricted)
+          ..setNavigationDelegate(
+            NavigationDelegate(
+              onPageStarted: (_) => setState(() => isLoading = true),
+              onPageFinished: (_) => setState(() => isLoading = false),
+              onWebResourceError:
+                  (error) => debugPrint('WebView error: ${error.description}'),
+            ),
+          )
+          ..loadRequest(
+            Uri.parse(
+              'https://the-internet.herokuapp.com/add_remove_elements/',
+            ),
+          );
   }
 
   @override

@@ -11,9 +11,6 @@ void main() {
     await Common.openApp($);
     await homePage.openLogin();
     await loginPage.googleLogIn();
-    await $.native2.tap(
-      NativeSelector(android: AndroidSelector(text: 'Andrzej Strzelba')),
-    );
     await homePage.openLogin();
     await loginPage.checkIfLoggedIn();
   });
