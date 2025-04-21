@@ -10,11 +10,10 @@ void main() {
 
     await Common.openApp($);
     await homePage.openNotifications();
+    await $.native2.grantPermissionWhenInUse();
     await notificationPage.requestPermission();
-    await $.native.grantPermissionWhenInUse();
-
-    // await notificationPage.requestPermission();
-    // await $.nativeAutomator2.tapOnNotificationByIndex(0);
-    // await notificationPage.isOnNotificationSuccessPage();
+    await $.native2.openNotifications();
+    await $.native2.tapOnNotificationByIndex(0);
+    await notificationPage.isOnNotificationSuccessPage();
   });
 }
