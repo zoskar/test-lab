@@ -13,3 +13,16 @@ abstract final class HomePageKeys {
   static const connectionTile = _HomePageKey('connectionTile');
   static const formTile = _HomePageKey('formTile');
 }
+
+class _LoginPageKey extends ValueKey<String> {
+  const _LoginPageKey(String value) : super('loginPage_$value');
+}
+
+abstract final class LoginPageKeys {
+  static const loginField = _LoginPageKey('loginField');
+  static const passwordField = _LoginPageKey('passwordField');
+  static const loginButton = _LoginPageKey('loginButton');
+  static const googleSignInButton = _LoginPageKey('googleSignInButton');
+  static const goBackButton = _LoginPageKey('goBackButton');
+  static const logoutButton = _LoginPageKey('logoutButton');
+}
