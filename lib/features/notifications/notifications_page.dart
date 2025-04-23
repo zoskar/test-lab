@@ -1,6 +1,7 @@
 import 'package:app_settings/app_settings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:test_lab/keys.dart';
 import 'notifications_success_page.dart';
 
 // TODO refactor this page
@@ -20,6 +21,7 @@ class _NotificationsPageState extends State<NotificationsPage> {
     _controller.initialize(
       stateCallback: () => setState(() {}),
       navigationCallback: _navigateToSuccessScreen,
+      requestPermissionsImmediately: true,
     );
   }
 
@@ -85,6 +87,7 @@ class _NotificationsPageState extends State<NotificationsPage> {
     return _controller.isLoading
         ? const CircularProgressIndicator()
         : ElevatedButton(
+          key: NotificationsPageKeys.requestNotificationButton,
           onPressed:
               _controller.permissionGranted
                   ? _controller.showNotification
@@ -95,7 +98,7 @@ class _NotificationsPageState extends State<NotificationsPage> {
           child: Text(
             _controller.permissionGranted
                 ? 'Send Test Notification'
-                : 'Request Permission',
+                : 'Request Permission Again',
             style: const TextStyle(fontSize: 16),
           ),
         );
@@ -115,14 +118,18 @@ class NotificationsController {
   late void Function() setState;
   late void Function() navigateToSuccessScreen;
 
-  /// Initialize the controller and notifications plugin
   Future<void> initialize({
     required void Function() stateCallback,
     required void Function() navigationCallback,
+    bool requestPermissionsImmediately = false,
   }) async {
     setState = stateCallback;
     navigateToSuccessScreen = navigationCallback;
     await _initializeNotifications();
+    
+    if (requestPermissionsImmediately) {
+      await checkPermission();
+    }
   }
 
   Future<void> _initializeNotifications() async {
@@ -144,9 +151,7 @@ class NotificationsController {
         },
       );
 
-      _updateStatus(
-        'Ready to use notifications - Tap Request Permission to proceed',
-      );
+      _updateStatus('Checking notification permissions...');
     } catch (err) {
       _updateStatus('Initialization error: $err');
     }
@@ -158,6 +163,9 @@ class NotificationsController {
   }
 
   Future<void> checkPermission() async {
+    isLoading = true;
+    _updateStatus('Requesting notification permissions...');
+    
     try {
       var hasPermission = false;
 
@@ -193,6 +201,9 @@ class NotificationsController {
       );
     } catch (err) {
       _updateStatus('Permission check error: $err');
+    } finally {
+      isLoading = false;
+      setState();
     }
   }
 

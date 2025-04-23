@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:test_lab/keys.dart';
 
 class NotificationSuccessPage extends StatelessWidget {
   const NotificationSuccessPage({super.key});
@@ -29,6 +30,7 @@ class NotificationSuccessPage extends StatelessWidget {
             ),
             const SizedBox(height: 32),
             ElevatedButton(
+              key: NotificationsPageKeys.notificationGoBackButton,
               onPressed:
                   () =>
                       Navigator.of(context).popUntil(ModalRoute.withName('/')),

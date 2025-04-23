@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:test_lab/features/webView/web_view.dart';
+import 'package:test_lab/keys.dart';
 import 'package:test_lab/widgets/tile.dart';
 
 class WebViewTile extends StatelessWidget {
@@ -8,6 +9,7 @@ class WebViewTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TLTile(
+      key: HomePageKeys.webViewTile,
       icon: Icons.web,
       text: 'WebView',
       onTap: () {

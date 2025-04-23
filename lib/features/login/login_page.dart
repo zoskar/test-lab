@@ -1,16 +1,13 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:test_lab/keys.dart';
 import 'auth_cubit.dart';
 
 class LoginPage extends StatelessWidget {
   LoginPage({super.key});
-  final TextEditingController emailController = TextEditingController(
-    text: 'abc@wp.pl',
-  );
-  final TextEditingController passwordController = TextEditingController(
-    text: 'abc@wp.pl',
-  );
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -36,6 +33,7 @@ class LoginPage extends StatelessWidget {
                     const Text('You are logged in!'),
                     const SizedBox(height: 16),
                     ElevatedButton(
+                      key: LoginPageKeys.goBackButton,
                       onPressed: () {
                         Navigator.of(context).pop();
                       },
@@ -43,6 +41,7 @@ class LoginPage extends StatelessWidget {
                     ),
                     const SizedBox(height: 16),
                     ElevatedButton(
+                      key: LoginPageKeys.logoutButton,
                       onPressed: () {
                         context.read<AuthCubit>().logout();
                       },
@@ -60,12 +59,14 @@ class LoginPage extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   TextField(
+                    key: LoginPageKeys.loginField,
                     controller: emailController,
                     decoration: const InputDecoration(labelText: 'Email'),
                     keyboardType: TextInputType.emailAddress,
                   ),
                   const SizedBox(height: 16),
                   TextField(
+                    key: LoginPageKeys.passwordField,
                     controller: passwordController,
                     decoration: const InputDecoration(labelText: 'Password'),
                     obscureText: true,
@@ -75,6 +76,7 @@ class LoginPage extends StatelessWidget {
                     const CircularProgressIndicator()
                   else
                     ElevatedButton(
+                      key: LoginPageKeys.loginButton,
                       onPressed: () {
                         final email = emailController.text.trim();
                         final password = passwordController.text.trim();
@@ -96,6 +98,7 @@ class LoginPage extends StatelessWidget {
                     ),
                     const SizedBox(height: 24),
                     OutlinedButton.icon(
+                      key: LoginPageKeys.googleSignInButton,
                       onPressed: () {
                         context.read<AuthCubit>().signInWithGoogle();
                       },

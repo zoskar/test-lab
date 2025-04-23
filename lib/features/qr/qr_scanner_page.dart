@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
+import 'package:test_lab/keys.dart';
 
 class QRScannerPage extends StatefulWidget {
   const QRScannerPage({super.key});
@@ -75,6 +76,7 @@ class _QRScannerPageState extends State<QRScannerPage> {
                   if (_imageUrl != null)
                     Expanded(
                       child: Image.network(
+                        key: QRPageKeys.loadedImage,
                         _imageUrl!,
                         loadingBuilder: (context, child, loadingProgress) {
                           if (loadingProgress == null) {

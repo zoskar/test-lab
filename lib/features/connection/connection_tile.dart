@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:test_lab/features/connection/connection_page.dart';
+import 'package:test_lab/keys.dart';
 import 'package:test_lab/widgets/tile.dart';
 
 class ConnectionTile extends StatelessWidget {
@@ -8,6 +9,7 @@ class ConnectionTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TLTile(
+      key: HomePageKeys.connectionTile,
       icon: Icons.wifi,
       text: 'Connection',
       onTap: () {
