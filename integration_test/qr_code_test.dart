@@ -1,7 +1,7 @@
 import 'package:patrol/patrol.dart';
-import 'common.dart';
 import 'pages/home_pom.dart';
 import 'pages/qr_code_pom.dart';
+import 'util/common.dart';
 
 void main() {
   patrolTest('tests QR code scanning', ($) async {

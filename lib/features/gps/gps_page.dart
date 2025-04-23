@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:location/location.dart';
+import 'package:test_lab/keys.dart';
 
 class GPSPage extends StatefulWidget {
   const GPSPage({super.key});
@@ -95,6 +96,7 @@ class _GPSPageState extends State<GPSPage> {
       barrierDismissible: false,
       builder: (context) {
         return AlertDialog(
+          key: GpsPageKeys.successDialog,
           title: const Text('Success!'),
           content: const Text('You have reached the waypoint!'),
           backgroundColor: Colors.green[100],

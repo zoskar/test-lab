@@ -56,3 +56,11 @@ class _QRPageKey extends ValueKey<String> {
 abstract final class QRPageKeys {
   static const loadedImage = _QRPageKey('loadedImage');
 }
+
+class _GpsPageKey extends ValueKey<String> {
+  const _GpsPageKey(String value) : super('gpsPage_$value');
+}
+
+abstract final class GpsPageKeys {
+  static const successDialog = _GpsPageKey('successDialog');
+}

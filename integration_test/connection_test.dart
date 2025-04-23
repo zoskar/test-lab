@@ -1,8 +1,8 @@
 import 'package:flutter/foundation.dart';
 import 'package:patrol/patrol.dart';
-import 'common.dart';
 import 'pages/connection_pom.dart';
 import 'pages/home_pom.dart';
+import 'util/common.dart';
 
 void main() {
   final automator = NativeAutomator(config: nativeConfig);
