@@ -1,0 +1,51 @@
+<?xml version="1.0"?>
+<gpx version="1.1" creator="gpxgenerator.com">
+<wpt lat="51.249579" lon="22.569733">
+    <ele>215.45</ele>
+    <time>2025-04-23T12:00:00Z</time>
+</wpt>
+<wpt lat="51.249384" lon="22.569466">
+    <ele>217.32</ele>
+    <time>2025-04-23T12:00:15Z</time>
+</wpt>
+<wpt lat="51.249189" lon="22.569200">
+    <ele>219.85</ele>
+    <time>2025-04-23T12:00:30Z</time>
+</wpt>
+<wpt lat="51.248994" lon="22.568933">
+    <ele>220.10</ele>
+    <time>2025-04-23T12:00:45Z</time>
+</wpt>
+<wpt lat="51.248799" lon="22.568667">
+    <ele>221.75</ele>
+    <time>2025-04-23T12:01:00Z</time>
+</wpt>
+<wpt lat="51.248604" lon="22.568400">
+    <ele>223.50</ele>
+    <time>2025-04-23T12:01:15Z</time>
+</wpt>
+<wpt lat="51.248409" lon="22.568133">
+    <ele>225.18</ele>
+    <time>2025-04-23T12:01:30Z</time>
+</wpt>
+<wpt lat="51.248214" lon="22.567867">
+    <ele>226.94</ele>
+    <time>2025-04-23T12:01:45Z</time>
+</wpt>
+<wpt lat="51.248019" lon="22.567600">
+    <ele>228.45</ele>
+    <time>2025-04-23T12:02:00Z</time>
+</wpt>
+<wpt lat="51.247824" lon="22.567334">
+    <ele>227.80</ele>
+    <time>2025-04-23T12:02:15Z</time>
+</wpt>
+<wpt lat="51.247629" lon="22.567067">
+    <ele>226.35</ele>
+    <time>2025-04-23T12:02:30Z</time>
+</wpt>
+<wpt lat="51.247619" lon="22.566694">
+    <ele>225.10</ele>
+    <time>2025-04-23T12:02:45Z</time>
+</wpt>
+</gpx>

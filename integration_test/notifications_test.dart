@@ -1,7 +1,7 @@
 import 'package:patrol/patrol.dart';
-import 'common.dart';
 import 'pages/home_pom.dart';
 import 'pages/notifications_pom.dart';
+import 'util/common.dart';
 
 void main() {
   patrolTest('tests push notifications', ($) async {
