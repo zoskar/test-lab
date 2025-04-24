@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:patrol/patrol.dart';
 import 'package:test_lab/keys.dart';
 
@@ -7,20 +6,26 @@ class EventFormPageObject {
 
   final PatrolIntegrationTester $;
 
-  Future<void> fillInEventDetails() async {
-    await $(EventFormKeys.nameField).enterText('Test Event');
-    await $(EventFormKeys.eventTypeDropdown).tap();
-    await $(DropdownMenuItem).at(0).tap();
+  Future<void> fillInEventDetails(String eventName) async {
+    await $(EventFormKeys.nameField).enterText(eventName);
+    // TODO find a way to select the event type
+    // await $(EventFormKeys.eventTypeDropdown).tap();
+    // await $(DropdownMenuItem<String>).tap();
     await $(EventFormKeys.onlineCheckbox).tap();
     await $(EventFormKeys.recordedCheckbox).tap();
+    // TODO find a way to select the guest slider
     // await $(EventFormKeys.guestSlider)
     await $(EventFormKeys.dateField).tap();
-    await $('Ok').tap();
+    await $('OK').tap();
     await $(EventFormKeys.timeField).tap();
-    await $('Ok').tap();
+    await $('OK').tap();
     await $(EventFormKeys.colorPicker).tap();
     await $('Done').tap();
     await $(EventFormKeys.notificationsSwitch).tap();
+  }
+
+  Future<void> fillName(String name) async {
+    await $(EventFormKeys.nameField).enterText(name);
   }
 
   Future<void> saveEvent() async {
