@@ -1,9 +1,9 @@
-import 'dart:convert';
-
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 import 'package:patrol/patrol.dart';
+import 'package:test_lab/data/event/event.dart';
+import 'package:test_lab/data/event/event_repository.dart';
 import 'package:test_lab/main.dart';
 import 'package:test_lab/util/firebase_options.dart';
 
@@ -13,6 +13,11 @@ const nativeConfig = NativeAutomatorConfig(
 );
 
 abstract class Common {
+  static final EventRepository _eventRepository = EventRepository();
+  static final DatabaseReference _eventsRef = FirebaseDatabase.instance
+      .ref()
+      .child('events');
+
   static Future<void> openApp(PatrolIntegrationTester $) async {
     WidgetsFlutterBinding.ensureInitialized();
     await Firebase.initializeApp(
@@ -22,35 +27,21 @@ abstract class Common {
   }
 
   static Future<String> createTestEvent(String eventName) async {
-    const url =
-        'https://test-lab-a4a12-default-rtdb.europe-west1.firebasedatabase.app/events.json';
     final eventId = 'test-${DateTime.now().millisecondsSinceEpoch}';
-    final Map<String, dynamic> eventData = {
-      eventId: {
-        'date': '2025-04-20',
-        'eventType': 'Meetup',
-        'guestCount': 20,
-        'isOnline': true,
-        'isRecorded': false,
-        'name': eventName,
-        'notificationsEnabled': false,
-        'themeColor': 4293467747,
-        'time': '15:15',
-      },
-    };
+    final event = Event(
+      name: eventName,
+      eventType: 'Meetup',
+      isOnline: true,
+      isRecorded: false,
+      guestCount: 20,
+      date: '2025-04-20',
+      time: '15:15',
+      themeColor: const Color(0xFFFFB084),
+      notificationsEnabled: false,
+    );
 
     try {
-      final response = await http.patch(
-        Uri.parse(url),
-        headers: {'Content-Type': 'application/json'},
-        body: jsonEncode(eventData),
-      );
-
-      if (response.statusCode != 200) {
-        throw Exception(
-          'Failed to create event. Status: ${response.statusCode}, Body: ${response.body}',
-        );
-      }
+      await _eventsRef.child(eventId).set(event.toMap());
       return eventId;
     } catch (err) {
       throw Exception('Exception when creating test event: $err');
@@ -58,51 +49,16 @@ abstract class Common {
   }
 
   static Future<void> deleteTestEvent(String eventId) async {
-    final url =
-        'https://test-lab-a4a12-default-rtdb.europe-west1.firebasedatabase.app/events/$eventId.json';
     try {
-      final response = await http.delete(
-        Uri.parse(url),
-        headers: {'Content-Type': 'application/json'},
-      );
-
-      if (response.statusCode != 200) {
-        throw Exception(
-          'Failed to delete event. Status: ${response.statusCode}, Body: ${response.body}',
-        );
-      }
+      await _eventRepository.deleteEvent(eventId);
     } catch (err) {
       throw Exception('Exception when deleting test event: $err');
     }
   }
 
   static Future<String?> getEventIdByName(String eventName) async {
-    const url =
-        'https://test-lab-a4a12-default-rtdb.europe-west1.firebasedatabase.app/events.json';
     try {
-      final response = await http.get(
-        Uri.parse(url),
-        headers: {'Content-Type': 'application/json'},
-      );
-
-      if (response.statusCode != 200) {
-        throw Exception(
-          'Failed to fetch events. Status: ${response.statusCode}, Body: ${response.body}',
-        );
-      }
-
-      final events = jsonDecode(response.body) as Map<String, dynamic>;
-
-      for (final entry in events.entries) {
-        final eventId = entry.key;
-        final eventData = entry.value as Map<String, dynamic>;
-
-        if (eventData['name'] == eventName) {
-          return eventId;
-        }
-      }
-
-      return null;
+      return await _eventRepository.getEventIdByName(eventName);
     } catch (err) {
       throw Exception('Exception when getting event ID by name: $err');
     }

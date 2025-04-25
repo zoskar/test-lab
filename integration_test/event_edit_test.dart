@@ -17,8 +17,8 @@ void main() {
     final eventList = EventListPageObject($);
     final eventForm = EventFormPageObject($);
 
-    eventId = await Common.createTestEvent(eventName);
     await Common.openApp($);
+    eventId = await Common.createTestEvent(eventName);
     await homePage.openForm();
     await eventList.editEvent(eventName);
     await eventForm.fillName('New event name');
