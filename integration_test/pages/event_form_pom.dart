@@ -8,9 +8,8 @@ class EventFormPageObject {
 
   Future<void> fillInEventDetails(String eventName) async {
     await $(EventFormKeys.nameField).enterText(eventName);
-    // TODO find a way to select the event type
-    // await $(EventFormKeys.eventTypeDropdown).tap();
-    // await $(DropdownMenuItem<String>).tap();
+    await $(EventFormKeys.eventTypeDropdown).tap();
+    await $('Meetup').tap();
     await $(EventFormKeys.onlineCheckbox).tap();
     await $(EventFormKeys.recordedCheckbox).tap();
     // TODO find a way to select the guest slider
