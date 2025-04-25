@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import '../../data/event/event.dart';
 import '../../data/event/event_cubit.dart';
+import '../../keys.dart';
 import 'event_creation_page.dart';
 
 class EventListPage extends StatefulWidget {
@@ -45,6 +45,7 @@ class _EventListPageState extends State<EventListPage> {
                 child: const Text('CANCEL'),
               ),
               TextButton(
+                key: EventListPageKeys.deleteConfirmButton,
                 onPressed: () => Navigator.pop(context, true),
                 child: const Text('DELETE'),
               ),
@@ -99,6 +100,7 @@ class _EventListPageState extends State<EventListPage> {
               ),
             ),
             PopupMenuButton<String>(
+              key: EventListPageKeys.menuButton,
               icon: const Icon(Icons.more_vert),
               onSelected: (value) {
                 if (value == 'edit') {
@@ -110,10 +112,12 @@ class _EventListPageState extends State<EventListPage> {
               itemBuilder:
                   (context) => [
                     const PopupMenuItem<String>(
+                      key: EventListPageKeys.editButton,
                       value: 'edit',
                       child: Text('Edit'),
                     ),
                     const PopupMenuItem<String>(
+                      key: EventListPageKeys.deleteButton,
                       value: 'delete',
                       child: Text('Delete'),
                     ),
@@ -159,6 +163,7 @@ class _EventListPageState extends State<EventListPage> {
     return Scaffold(
       appBar: AppBar(title: const Text('Events')),
       body: RefreshIndicator(
+        key: EventListPageKeys.refreshIndicator,
         onRefresh: _refreshEvents,
         child: BlocConsumer<EventCubit, EventState>(
           listener: (context, state) {
@@ -183,6 +188,7 @@ class _EventListPageState extends State<EventListPage> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
+        key: EventListPageKeys.addEventButton,
         onPressed: () async {
           final result = await Navigator.push(
             context,

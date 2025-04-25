@@ -64,3 +64,33 @@ class _GpsPageKey extends ValueKey<String> {
 abstract final class GpsPageKeys {
   static const successDialog = _GpsPageKey('successDialog');
 }
+
+class _EventFormPageKey extends ValueKey<String> {
+  const _EventFormPageKey(String value) : super('eventForm_$value');
+}
+
+abstract final class EventFormKeys {
+  static const nameField = _EventFormPageKey('nameField');
+  static const eventTypeDropdown = _EventFormPageKey('eventTypeDropdown');
+  static const onlineCheckbox = _EventFormPageKey('onlineCheckbox');
+  static const recordedCheckbox = _EventFormPageKey('recordedCheckbox');
+  static const guestSlider = _EventFormPageKey('guestSlider');
+  static const dateField = _EventFormPageKey('dateField');
+  static const timeField = _EventFormPageKey('timeField');
+  static const colorPicker = _EventFormPageKey('colorPicker');
+  static const notificationsSwitch = _EventFormPageKey('notificationsSwitch');
+  static const saveButton = _EventFormPageKey('saveButton');
+}
+
+class _EventListPageKey extends ValueKey<String> {
+  const _EventListPageKey(String value) : super('eventList_$value');
+}
+
+abstract final class EventListPageKeys {
+  static const refreshIndicator = _EventListPageKey('refreshIndicator');
+  static const addEventButton = _EventListPageKey('addEventButton');
+  static const editButton = _EventListPageKey('editButton');
+  static const deleteButton = _EventListPageKey('deleteButton');
+  static const deleteConfirmButton = _EventListPageKey('deleteConfirmButton');
+  static const menuButton = _EventListPageKey('menuButton');
+}

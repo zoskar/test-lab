@@ -4,7 +4,6 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:test_lab/keys.dart';
 import 'notifications_success_page.dart';
 
-// TODO refactor this page
 class NotificationsPage extends StatefulWidget {
   const NotificationsPage({super.key});
 
@@ -126,7 +125,7 @@ class NotificationsController {
     setState = stateCallback;
     navigateToSuccessScreen = navigationCallback;
     await _initializeNotifications();
-    
+
     if (requestPermissionsImmediately) {
       await checkPermission();
     }
@@ -165,7 +164,7 @@ class NotificationsController {
   Future<void> checkPermission() async {
     isLoading = true;
     _updateStatus('Requesting notification permissions...');
-    
+
     try {
       var hasPermission = false;
 
