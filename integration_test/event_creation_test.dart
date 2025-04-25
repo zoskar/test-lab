@@ -5,14 +5,15 @@ import 'pages/home_pom.dart';
 import 'util/common.dart';
 
 void main() {
-  // TODO find a way to retrieve the eventId
-  var eventId = '';
   const eventName = 'UI test event creation';
 
   patrolTearDown(() async {
-    // TODO uncomment this when the eventId is retrieved
-    // await Common.deleteTestEvent(eventId);
+    final eventId = await Common.getEventIdByName(eventName);
+    if (eventId != null) {
+      await Common.deleteTestEvent(eventId);
+    }
   });
+
   patrolTest('test creating event', ($) async {
     final homePage = HomePageObject($);
     final eventList = EventListPageObject($);

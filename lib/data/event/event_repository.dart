@@ -61,6 +61,25 @@ class EventRepository {
     }
   }
 
+  Future<String?> getEventIdByName(String eventName) async {
+    try {
+      final events = await getEvents();
+
+      // Find the first event with a matching name
+      final entry = events.entries.firstWhere(
+        (entry) => entry.value.name == eventName,
+      );
+
+      if (entry.key.isEmpty) {
+        return null;
+      }
+
+      return entry.key;
+    } catch (err) {
+      throw Exception('Failed to get event ID by name: $err');
+    }
+  }
+
   Future<void> deleteEvent(String eventId) async {
     try {
       await _eventsRef.child(eventId).remove();

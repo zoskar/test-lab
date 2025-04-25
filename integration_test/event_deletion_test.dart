@@ -10,6 +10,7 @@ void main() {
   patrolTearDown(() async {
     await Common.deleteTestEvent(eventId);
   });
+
   patrolTest('test deleting event', ($) async {
     final homePage = HomePageObject($);
     final eventList = EventListPageObject($);

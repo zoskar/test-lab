@@ -13,6 +13,7 @@ void main() {
       await automator.enableCellular();
     });
   }
+
   patrolTest('tests connection status page', ($) async {
     final homePage = HomePageObject($);
     final connectionPage = ConnectionPageObject($);

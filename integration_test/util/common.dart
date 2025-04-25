@@ -75,4 +75,36 @@ abstract class Common {
       throw Exception('Exception when deleting test event: $err');
     }
   }
+
+  static Future<String?> getEventIdByName(String eventName) async {
+    const url =
+        'https://test-lab-a4a12-default-rtdb.europe-west1.firebasedatabase.app/events.json';
+    try {
+      final response = await http.get(
+        Uri.parse(url),
+        headers: {'Content-Type': 'application/json'},
+      );
+
+      if (response.statusCode != 200) {
+        throw Exception(
+          'Failed to fetch events. Status: ${response.statusCode}, Body: ${response.body}',
+        );
+      }
+
+      final events = jsonDecode(response.body) as Map<String, dynamic>;
+
+      for (final entry in events.entries) {
+        final eventId = entry.key;
+        final eventData = entry.value as Map<String, dynamic>;
+
+        if (eventData['name'] == eventName) {
+          return eventId;
+        }
+      }
+
+      return null;
+    } catch (err) {
+      throw Exception('Exception when getting event ID by name: $err');
+    }
+  }
 }
