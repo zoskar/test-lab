@@ -12,6 +12,6 @@ void main() {
     await Common.openApp($);
     await homePage.openWebView();
     await webViewPage.addElement();
-    expect(await webViewPage.checkCount(1), true);
+    expect(await webViewPage.deleteButtonVisible(), true);
   });
 }

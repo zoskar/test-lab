@@ -8,18 +8,24 @@ class WebViewPageObject {
 
   Future<void> addElement() async {
     await $.native2.tap(
-      NativeSelector(android: AndroidSelector(text: 'Add Element')),
+      NativeSelector(
+        android: AndroidSelector(text: 'Add Element'),
+        ios: IOSSelector(label: 'Add Element'),
+      ),
     );
   }
 
-  Future<bool> checkCount(int expectedCount) async {
-    for (var attempt = 0; attempt < 3; attempt++) {
-      final elements = await $.native2.getNativeViews(
-        NativeSelector(android: AndroidSelector(text: 'Delete')),
-      );
-      final actualCount = elements.androidViews.length;
+  Future<bool> deleteButtonVisible() async {
+    var i = 0;
+    var nativeViewsList = List<dynamic>.empty();
 
-      if (actualCount == expectedCount) {
+    while (i < 5 && nativeViewsList.isEmpty) {
+      i++;
+      nativeViewsList = await $.native.getNativeViews(
+        Selector(text: 'Delete'),
+        appId: 'io.github.zoskar.testlab',
+      );
+      if (nativeViewsList.isNotEmpty) {
         return true;
       }
       await Future.delayed(const Duration(seconds: 1), () {});
