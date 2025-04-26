@@ -1,0 +1,25 @@
+appId: io.github.zoskar.testlab
+
+onFlowComplete:
+  - runScript: scripts/deleteEvent.js
+
+---
+- launchApp
+- tapOn: "Forms"
+- tapOn: "Create new event" #
+- tapOn: "Event Name*"
+- inputText: "ui test event"
+- tapOn: "Event Type\nConference"
+- tapOn: "Meetup"
+- tapOn: "Is this an online event?"
+- tapOn: "Is this event recorded?"
+# TODO find a way to select the guest slider
+- tapOn: "Event Date"
+- tapOn: "OK"
+- tapOn: "Event Time"
+- tapOn: "OK"
+- tapOn: "Event Theme Color"
+- tapOn: "Done"
+- tapOn: "Enable Notifications"
+- tapOn: "Save Event"
+- assertVisible: "Create new event" # TODO replace with event name

@@ -1,0 +1,13 @@
+appId: io.github.zoskar.testlab
+
+# onFlowStart:
+#   - runScript: scripts/createEvent.js
+
+# onFlowComplete:
+#   - runScript: scripts/deleteEvent.js
+
+---
+- launchApp
+- tapOn: "Forms"
+# - assertVisible: "ui test event"
+# - tapOn:

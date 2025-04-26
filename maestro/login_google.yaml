@@ -1,0 +1,10 @@
+appId: io.github.zoskar.testlab
+---
+- launchApp:
+    clearState: true
+- tapOn: "Login"
+- tapOn: "Sign in with Google"
+- tapOn:
+      text: "Andrzej Strzelba"
+      optional: true
+- assertVisible: "Logout"
