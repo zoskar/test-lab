@@ -1,16 +1,19 @@
+import 'dart:io';
 import 'package:patrol/patrol.dart';
 import 'pages/home_pom.dart';
 import 'pages/qr_code_pom.dart';
 import 'util/common.dart';
 
 void main() {
-  patrolTest('tests QR code scanning', ($) async {
-    final homePage = HomePageObject($);
-    final qrCodePage = QRCodePageObject($);
+  if (Platform.isAndroid) {
+    patrolTest('tests QR code scanning', ($) async {
+      final homePage = HomePageObject($);
+      final qrCodePage = QRCodePageObject($);
 
-    await Common.openApp($);
-    await homePage.openQrScanner();
-    await $.native2.grantPermissionOnlyThisTime();
-    await qrCodePage.checkIfImageLoaded();
-  });
+      await Common.openApp($);
+      await homePage.openQrScanner();
+      await $.native2.grantPermissionOnlyThisTime();
+      await qrCodePage.checkIfImageLoaded();
+    });
+  }
 }
