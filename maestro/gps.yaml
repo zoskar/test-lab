@@ -1,0 +1,25 @@
+appId: io.github.zoskar.testlab
+---
+- launchApp:
+      clearState: true
+      permissions:
+          all: deny
+- tapOn: "GPS"
+- tapOn: "Only this time"
+- travel:
+      points:
+          - 51.249579,22.569733
+          - 51.249384,22.569466
+          - 51.249189,22.5692
+          - 51.248994,22.568933
+          - 51.248799,22.568667
+          - 51.248604,22.5684
+          - 51.248409,22.568133
+          - 51.248214,22.567867
+          - 51.248019,22.5676
+          - 51.247824,22.567334
+          - 51.247629,22.567067
+          - 51.247619,22.566694
+      speed: 7
+
+- assertVisible: "You have reached the waypoint!"
