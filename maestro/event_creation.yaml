@@ -22,4 +22,4 @@ onFlowComplete:
 - tapOn: "Done"
 - tapOn: "Enable Notifications"
 - tapOn: "Save Event"
-- assertVisible: "Create new event" # TODO replace with event name
+- assertVisible: ".*ui test event.*"

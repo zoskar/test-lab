@@ -38,7 +38,7 @@ function deleteEvent(eventId) {
 
 function main() {
   try {
-    // TODO store event name in an environment variable
+    // TODO store event name in an environment variable (for all tests)
     const eventName = "ui test event";
 
     const eventId = getEventIdByName(eventName);

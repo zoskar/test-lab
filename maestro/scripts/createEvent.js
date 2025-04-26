@@ -31,7 +31,6 @@ function createTestEvent(eventName) {
 
 function main() {
     try {
-        // TODO configure event name in an environment variable
         const eventName = "ui test event";
         const eventId = createTestEvent(eventName);
 
