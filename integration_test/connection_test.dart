@@ -5,7 +5,7 @@ import 'pages/home_pom.dart';
 import 'util/common.dart';
 
 void main() {
-  final automator = NativeAutomator(config: nativeConfig);
+  final automator = NativeAutomator2(config: nativeConfig);
 
   if (defaultTargetPlatform == TargetPlatform.android) {
     patrolTearDown(() async {
