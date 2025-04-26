@@ -1,1 +1,12 @@
-# TODO
+appId: io.github.zoskar.testlab
+
+onFlowComplete:
+  - setAirplaneMode: disabled
+
+---
+- launchApp
+- setAirplaneMode: enabled
+- tapOn: "Connection"
+- assertVisible: "No internet connection available"
+- setAirplaneMode: disabled
+- assertVisible: "You are connected to the internet"
