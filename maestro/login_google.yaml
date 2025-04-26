@@ -1,7 +1,7 @@
 appId: io.github.zoskar.testlab
 ---
 - launchApp:
-    clearState: true
+      clearState: true
 - tapOn: "Login"
 - tapOn: "Sign in with Google"
 - tapOn:
