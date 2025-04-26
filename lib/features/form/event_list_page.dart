@@ -187,17 +187,20 @@ class _EventListPageState extends State<EventListPage> {
           },
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        key: EventListPageKeys.addEventButton,
-        onPressed: () async {
-          final result = await Navigator.push(
-            context,
-            MaterialPageRoute<bool>(builder: (context) => const EventForm()),
-          );
+      floatingActionButton: Semantics(
+        label: 'Create new event',
+        child: FloatingActionButton(
+          key: EventListPageKeys.addEventButton,
+          onPressed: () async {
+            final result = await Navigator.push(
+              context,
+              MaterialPageRoute<bool>(builder: (context) => const EventForm()),
+            );
 
-          await _refreshEventsAfterNavigation(result);
-        },
-        child: const Icon(Icons.add),
+            await _refreshEventsAfterNavigation(result);
+          },
+          child: const Icon(Icons.add),
+        ),
       ),
     );
   }

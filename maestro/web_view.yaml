@@ -1,0 +1,6 @@
+appId: io.github.zoskar.testlab
+---
+- launchApp
+- tapOn: "WebView"
+- tapOn: "Add Element"
+- assertVisible: "Delete"
