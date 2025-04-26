@@ -1,0 +1,11 @@
+appId: io.github.zoskar.testlab
+---
+- launchApp:
+      clearState: true
+      permissions:
+          all: deny
+- tapOn: "Notifications"
+- tapOn: "Allow"
+- tapOn: "Send Test Notification"
+- tapOn: ".*Test Lab.*"
+- assertVisible: "Notifications open success"
