@@ -1,4 +1,6 @@
 appId: io.github.zoskar.testlab
+tags:
+  - ios
 
 onFlowComplete:
   - runScript: scripts/deleteEvent.js

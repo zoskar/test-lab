@@ -1,4 +1,6 @@
 appId: io.github.zoskar.testlab
+tags:
+  - ios
 
 onFlowStart:
   - runScript: scripts/createEvent.js
@@ -10,7 +12,16 @@ onFlowComplete:
 - launchApp
 - tapOn: "Forms"
 - assertVisible: ".*ui test event.*"
-- tapOn:
-    rightOf: ".*Online.*"
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - tapOn:
+          rightOf: ".*Online.*"
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - tapOn: "Show menu"
 - tapOn: "Delete"
 - tapOn: "DELETE"
