@@ -1,11 +1,27 @@
 appId: io.github.zoskar.testlab
+tags:
+  - ios
 ---
-- launchApp:
-    clearState: true
-    permissions:
-      all: deny
+- runFlow:
+    when:
+      # denying on Android for popup to be visible
+      platform: Android
+    commands:
+      - launchApp:
+          clearState: true
+          permissions:
+            all: deny
+- runFlow:
+    when:
+      # cannot deny on iOS since then "Allow" was not tappable
+      platform: iOS
+    commands:
+      - launchApp:
+          clearState: true
 - tapOn: "Notifications"
 - tapOn: "Allow"
 - tapOn: "Send Test Notification"
-- tapOn: ".*Test Lab.*"
+- tapOn:
+    # tapping on notification text did not work on iOS
+    point: "50%, 10%"
 - assertVisible: "Notifications open success"
