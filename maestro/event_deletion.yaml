@@ -17,6 +17,7 @@ onFlowComplete:
       platform: Android
     commands:
       - tapOn:
+          # "Show menu" was not tappable on Android
           rightOf: ".*Online.*"
 - runFlow:
     when:
