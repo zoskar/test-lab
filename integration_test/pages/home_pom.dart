@@ -11,7 +11,9 @@ class HomePageObject {
   }
 
   Future<void> openNotifications() async {
-    await $(HomePageKeys.notificationsTile).tap();
+    await $(
+      HomePageKeys.notificationsTile,
+    ).tap(settlePolicy: SettlePolicy.noSettle);
   }
 
   Future<void> openQrScanner() async {
@@ -23,7 +25,7 @@ class HomePageObject {
   }
 
   Future<void> openGps() async {
-    await $(HomePageKeys.gpsTile).tap();
+    await $(HomePageKeys.gpsTile).tap(settlePolicy: SettlePolicy.noSettle);
   }
 
   Future<void> openConnection() async {

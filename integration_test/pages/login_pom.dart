@@ -15,7 +15,9 @@ class LoginPageObject {
   }
 
   Future<void> googleLogIn() async {
-    await $(LoginPageKeys.googleSignInButton).tap();
+    await $(
+      LoginPageKeys.googleSignInButton,
+    ).tap(settlePolicy: SettlePolicy.noSettle);
     await $.native2.tap(
       NativeSelector(android: AndroidSelector(text: 'Andrzej Strzelba')),
     );
