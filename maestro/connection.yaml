@@ -1,5 +1,6 @@
 appId: io.github.zoskar.testlab
-
+# airplane not available on iOS
+# https://docs.maestro.dev/api-reference/commands/setairplanemode
 onFlowComplete:
   - setAirplaneMode: disabled
 

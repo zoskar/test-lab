@@ -39,6 +39,6 @@ tags:
           - 51.247824,22.567334
           - 51.247629,22.567067
           - 51.247619,22.566694
-      speed: 7
+      speed: 7 # speed is different between systems
 
 - assertVisible: "You have reached the waypoint!"
