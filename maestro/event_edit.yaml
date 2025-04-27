@@ -12,6 +12,7 @@ onFlowComplete:
 - launchApp
 - tapOn: "Forms"
 - assertVisible: ".*ui test event.*"
+# different behavior for iOS and Android
 - runFlow:
     when:
       platform: Android

@@ -12,8 +12,9 @@ void main() {
     await homePage.openNotifications();
     await $.native2.grantPermissionWhenInUse();
     await notificationPage.requestPermission();
+    await $.native2.closeHeadsUpNotification();
     await $.native2.openNotifications();
-    await $.native2.tapOnNotificationByIndex(0);
+    await $.native2.tapOnNotificationByIndex(1);
     await notificationPage.isOnNotificationSuccessPage();
   });
 }

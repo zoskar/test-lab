@@ -1,13 +1,30 @@
 appId: io.github.zoskar.testlab
 tags:
-  - ios
+    - ios
 ---
-- launchApp:
-      clearState: true
-      permissions:
-          all: deny
+# workaround for no iOS location permission dialog
+- runFlow:
+      when:
+          platform: Android
+      commands:
+          - launchApp:
+                clearState: true
+                permissions:
+                    all: deny
+- runFlow:
+      when:
+          platform: iOS
+      commands:
+          - launchApp:
+                clearState: true
+                permissions:
+                    all: allow
 - tapOn: "GPS"
-- tapOn: "Only this time"
+- runFlow:
+      when:
+          platform: Android
+      commands:
+          - tapOn: "Only this time"
 - travel:
       points:
           - 51.249579,22.569733
