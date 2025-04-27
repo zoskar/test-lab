@@ -11,7 +11,9 @@ plugins {
 android {
     namespace = "io.github.zoskar.testlab"
     compileSdk = flutter.compileSdkVersion
-    ndkVersion = flutter.ndkVersion
+    // TODO: change to flutter version when flutter switches to ndk 27
+    ndkVersion = "27.0.12077973"
+    // ndkVersion = flutter.ndkVersion
 
     testOptions {
         execution = "ANDROIDX_TEST_ORCHESTRATOR"
