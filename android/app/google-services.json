@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "1037176075427-q9ceg7pgabuol1c2lipneaeq3njro2t1.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "io.github.zoskar.testlab",
+            "certificate_hash": "530c08f53edb3379434f9bfbd85ae08f48234803"
+          }
+        },
+        {
           "client_id": "1037176075427-uu5df5svhp9kiidh87ifb2a2hh47rbgc.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
