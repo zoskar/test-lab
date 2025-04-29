@@ -3,21 +3,11 @@ tags:
   - ios
 ---
 - runFlow:
-    when:
-      # denying on Android for popup to be visible
-      platform: Android
     commands:
       - launchApp:
           clearState: true
           permissions:
-            all: deny
-- runFlow:
-    when:
-      # cannot deny on iOS since then "Allow" was not tappable
-      platform: iOS
-    commands:
-      - launchApp:
-          clearState: true
+            all: unset
 - tapOn: "Notifications"
 - tapOn: "Allow"
 - tapOn: "Send Test Notification"
