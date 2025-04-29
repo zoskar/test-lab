@@ -12,13 +12,14 @@ onFlowComplete:
 - launchApp
 - tapOn: "Forms"
 - assertVisible: ".*ui test event.*"
+#d: none of the selectors worked on another system
 - runFlow:
     when:
       platform: Android
     commands:
       - tapOn:
           # "Show menu" was not tappable on Android
-          rightOf: ".*Online.*"
+          rightOf: ".*Online.*" #d: !!!!
 - runFlow:
     when:
       platform: iOS

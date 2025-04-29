@@ -8,11 +8,11 @@ onFlowComplete:
 ---
 - launchApp
 - tapOn: "Forms"
-  # semantic label had to be added
+  #d: semantic label had to be added
 - tapOn: "Create new event"
 - tapOn: "Event Name*"
 - inputText: "ui test event"
-- tapOn: "Event Type\nConference"
+- tapOn: "Event Type\nConference" #d: maestro studio
 - tapOn: "Meetup"
 - tapOn: "Is this an online event?"
 - tapOn: "Is this event recorded?"
@@ -25,4 +25,4 @@ onFlowComplete:
 - tapOn: "Done"
 - tapOn: "Enable Notifications"
 - tapOn: "Save Event"
-- assertVisible: ".*ui test event.*"
+- assertVisible: ".*ui test event.*" # contains

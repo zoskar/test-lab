@@ -2,29 +2,24 @@ appId: io.github.zoskar.testlab
 tags:
     - ios
 ---
-# workaround for no iOS location permission dialog
+# actual todo: remove workaround on main
 - runFlow:
-      when:
-          platform: Android
       commands:
           - launchApp:
                 clearState: true
                 permissions:
-                    all: deny
-- runFlow:
-      when:
-          platform: iOS
-      commands:
-          - launchApp:
-                clearState: true
-                permissions:
-                    all: allow
+                    all: unset #d: defaults to allow, confusing
 - tapOn: "GPS"
 - runFlow:
       when:
           platform: Android
       commands:
           - tapOn: "Only this time"
+- runFlow:
+      when:
+          platform: iOS
+      commands:
+          - tapOn: "Allow Once"
 - travel:
       points:
           - 51.249579,22.569733
@@ -39,6 +34,6 @@ tags:
           - 51.247824,22.567334
           - 51.247629,22.567067
           - 51.247619,22.566694
-      speed: 7 # speed is different between systems
+      speed: 14 # does not work on iOS
 
 - assertVisible: "You have reached the waypoint!"

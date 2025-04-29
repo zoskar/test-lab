@@ -4,7 +4,7 @@ appId: io.github.zoskar.testlab
 - launchApp:
     clearState: true
     permissions:
-      all: deny
+      all: unset
 - tapOn: "QR Code"
 - tapOn: "Only this time"
 - assertVisible: "Image loaded successfully"

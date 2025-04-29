@@ -7,5 +7,5 @@ appId: io.github.zoskar.testlab
 - tapOn: "Sign in with Google"
 - tapOn:
         text: "Andrzej Strzelba"
-        optional: true
+        optional: true #d just ana example
 - assertVisible: "Logout"

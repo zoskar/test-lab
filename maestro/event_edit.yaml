@@ -27,4 +27,4 @@ onFlowComplete:
 - tapOn: "Edit"
 - tapOn: "Is this an online event?"
 - tapOn: "Update Event"
-- assertVisible: ".*In Person.*"
+- assertVisible: ".*In Person.*" #d: maestro studio
