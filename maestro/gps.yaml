@@ -2,7 +2,6 @@ appId: io.github.zoskar.testlab
 tags:
     - ios
 ---
-# actual todo: remove workaround on main
 - runFlow:
       commands:
           - launchApp:
