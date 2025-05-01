@@ -1,33 +1,26 @@
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:integration_test/integration_test.dart';
-import 'package:test_lab/keys.dart';
 
 import '../util/common.dart';
+import 'pages/home_pom.dart';
+import 'pages/login_pom.dart';
 
 void main() {
-  IntegrationTestWidgetsFlutterBinding.ensureInitialized();
   testWidgets('tests email password login', (tester) async {
-    const email = 'abc@wp.pl';
-    const password = 'abc@wp.pl';
+    final homePage = HomePageObject(tester);
+    final loginPage = LoginPageObject(tester);
+
+    await dotenv.load(fileName: '.patrol.env');
+    final email = dotenv.env['LOGIN_EMAIL']!;
+    final password = dotenv.env['LOGIN_PASSWORD']!;
 
     await Common.openIntegrationApp(tester);
 
-    await tester.tap(find.byKey(HomePageKeys.loginTile));
-    await tester.pumpAndSettle();
+    await homePage.openLogin();
+    await loginPage.provideCredentials(email: email, password: password);
+    await loginPage.logIn();
 
-    await tester.enterText(find.byKey(LoginPageKeys.loginField), email);
-    await tester.enterText(find.byKey(LoginPageKeys.passwordField), password);
-    await tester.tap(find.byKey(LoginPageKeys.loginButton));
-    await tester.pumpAndSettle();
-
-    await tester.tap(find.byKey(HomePageKeys.loginTile));
-    await tester.pumpAndSettle();
-
-    expect(find.text('You are logged in!'), findsOneWidget);
-
-    await tester.tap(find.byKey(LoginPageKeys.goBackButton));
-    await tester.pumpAndSettle();
-
-    expect(find.text('Logout'), findsOneWidget);
+    await homePage.openLogin();
+    await loginPage.checkIfLoggedIn();
   });
 }
