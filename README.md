@@ -7,7 +7,7 @@
 
 Run all tests with the following command:
 ```bash
-patrol test
+patrol test -t integration_test/patrol
 ```
 
 ## Maestro
@@ -37,19 +37,29 @@ run all tests
 maestro test ./maestro
 ```
 
+## Integration test
+
+[Integration test](https://pub.dev/packages/integration_test) is Flutter built-in testing framework.
+
+Run all tests with the following command:
+```bash
+flutter test integration_test/flutter
+```
+
+
+
 ## Available Tests
 
-TODO
-
-<!-- | Test Name | Patrol | Maestro |
-|-----------|:------:|:-------:|
-| Login with password | ✅ | ✅ |
-| Login with Google | ✅ | ✅ |
-| Connection | ✅ | ✅ |
-| Notifications | ✅ | ✅ |
-| Event creation | ✅ | ✅ |
-| Event editing | ✅ | ✅ |
-| Event deletion | ✅ | ✅ |
-| QR code scanning | ✅ | ✅ |
-| GPS functionality | ✅ | ✅ |
-| Web view | ✅ | ✅ | -->
+| Test Name | Patrol |  | Maestro |  | integration_test |
+|-----------|:------:|:------:|:-------:|:-------:|:---------------:|
+| System | Android | iOS | Android | iOS | Android/iOS |
+| Login with password | ✅ | ✅ | ✅ | ✅ | ✅ |
+| Login with Google | ✅ | ❌ | ✅ | ❌ | ❌ |
+| Connection | ✅ | ❌ | ✅ | ❌ | ❌ |
+| Notifications | ✅ | ✅ | ✅ | ✅ | ❌ |
+| Event creation | ✅ | ✅ | ✅ | ✅ | ✅ |
+| Event editing | ✅ | ✅ | ✅ | ✅ | ✅ |
+| Event deletion | ✅ | ✅ | ✅ | ✅ | ✅ |
+| QR code scanning | ✅ | ❌ | ✅ | ❌ | ❌ |
+| GPS functionality | ✅ | ✅ | ✅ | ✅ | ❌ |
+| Web view | ✅ | ✅ | ✅ | ✅ | ❌ |
