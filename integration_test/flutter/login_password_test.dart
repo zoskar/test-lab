@@ -1,20 +1,16 @@
-import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:integration_test/integration_test.dart';
 import 'package:test_lab/keys.dart';
-import 'package:test_lab/main.dart';
-import 'package:test_lab/util/firebase_options.dart';
+
+import '../util/common.dart';
 
 void main() {
+  IntegrationTestWidgetsFlutterBinding.ensureInitialized();
   testWidgets('tests email password login', (tester) async {
     const email = 'abc@wp.pl';
     const password = 'abc@wp.pl';
 
-    WidgetsFlutterBinding.ensureInitialized();
-    await Firebase.initializeApp(
-      options: DefaultFirebaseOptions.currentPlatform,
-    );
-    await tester.pumpWidget(const TestLabApp());
+    await Common.openIntegrationApp(tester);
 
     await tester.tap(find.byKey(HomePageKeys.loginTile));
     await tester.pumpAndSettle();

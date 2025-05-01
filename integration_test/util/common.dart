@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_test/flutter_test.dart';
 import 'package:patrol/patrol.dart';
 import 'package:test_lab/data/event/event.dart';
 import 'package:test_lab/data/event/event_repository.dart';
@@ -24,6 +25,14 @@ abstract class Common {
       options: DefaultFirebaseOptions.currentPlatform,
     );
     await $.pumpWidgetAndSettle(const TestLabApp());
+  }
+
+    static Future<void> openIntegrationApp(WidgetTester tester) async {
+    WidgetsFlutterBinding.ensureInitialized();
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
+    await tester.pumpWidget(const TestLabApp());
   }
 
   static Future<String> createTestEvent(String eventName) async {
