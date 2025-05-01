@@ -1,5 +1,5 @@
 appId: io.github.zoskar.testlab
-tags: 
+tags:
   - ios
 ---
 - launchApp
