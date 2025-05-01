@@ -1,10 +1,13 @@
 import 'dart:io';
+
 import 'package:patrol/patrol.dart';
+
+import '../util/common.dart';
 import 'pages/home_pom.dart';
 import 'pages/login_pom.dart';
-import 'util/common.dart';
 
 void main() {
+  // Google login cannot be tested on iOS simulator
   if (Platform.isAndroid) {
     patrolTest('tests Google login', ($) async {
       final loginPage = LoginPageObject($);

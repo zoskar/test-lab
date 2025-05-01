@@ -2,10 +2,10 @@ appId: io.github.zoskar.testlab
 # Google login not available on iOS
 ---
 - launchApp:
-        clearState: true
+          clearState: true
 - tapOn: "Login"
 - tapOn: "Sign in with Google"
 - tapOn:
-        text: "Andrzej Strzelba"
-        optional: true
+          text: "Andrzej Strzelba"
+          optional: true
 - assertVisible: "Logout"

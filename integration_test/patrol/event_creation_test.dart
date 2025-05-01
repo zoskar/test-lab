@@ -1,8 +1,9 @@
 import 'package:patrol/patrol.dart';
+
+import '../util/common.dart';
 import 'pages/event_form_pom.dart';
 import 'pages/event_list_pom.dart';
 import 'pages/home_pom.dart';
-import 'util/common.dart';
 
 void main() {
   const eventName = 'UI test event creation';

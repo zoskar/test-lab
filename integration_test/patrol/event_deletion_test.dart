@@ -1,7 +1,8 @@
 import 'package:patrol/patrol.dart';
+
+import '../util/common.dart';
 import 'pages/event_list_pom.dart';
 import 'pages/home_pom.dart';
-import 'util/common.dart';
 
 void main() {
   var eventId = '';
