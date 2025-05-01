@@ -1,8 +1,10 @@
 import 'dart:io';
+
 import 'package:patrol/patrol.dart';
+
+import '../util/common.dart';
 import 'pages/home_pom.dart';
 import 'pages/qr_code_pom.dart';
-import 'util/common.dart';
 
 void main() {
   // camera is not available on iOS simulator

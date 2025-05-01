@@ -1,29 +1,29 @@
 import 'package:patrol/patrol.dart';
+
+import '../util/common.dart';
 import 'pages/event_form_pom.dart';
 import 'pages/event_list_pom.dart';
 import 'pages/home_pom.dart';
-import 'util/common.dart';
 
 void main() {
-  const eventName = 'UI test event creation';
+  var eventId = '';
+  const eventName = 'UI test event';
 
   patrolTearDown(() async {
-    final eventId = await Common.getEventIdByName(eventName);
-    if (eventId != null) {
-      await Common.deleteTestEvent(eventId);
-    }
+    await Common.deleteTestEvent(eventId);
   });
 
-  patrolTest('test creating event', ($) async {
+  patrolTest('test editing event', ($) async {
     final homePage = HomePageObject($);
     final eventList = EventListPageObject($);
     final eventForm = EventFormPageObject($);
 
     await Common.openApp($);
+    eventId = await Common.createTestEvent(eventName);
     await homePage.openForm();
-    await eventList.createNewEvent();
-    await eventForm.fillInEventDetails(eventName);
+    await eventList.editEvent(eventName);
+    await eventForm.fillName('New event name');
     await eventForm.saveEvent();
-    await eventList.eventIsOnTheList(eventName);
+    await eventList.eventIsOnTheList('New event name');
   });
 }
