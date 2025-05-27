@@ -15,7 +15,7 @@ Future<void> playGpxTrack(PatrolIntegrationTester $) async {
       await Future<void>.delayed(const Duration(milliseconds: 500));
     }
     previousTime = waypoint.time;
-    await $.native.setMockLocation(waypoint.lat!, waypoint.lon!);
+    await $.native2.setMockLocation(waypoint.lat!, waypoint.lon!);
   }
 }
 

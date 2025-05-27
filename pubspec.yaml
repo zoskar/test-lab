@@ -39,7 +39,7 @@ dev_dependencies:
   integration_test:
     sdk: flutter
   leancode_lint: ^15.1.0
-  patrol: ^3.15.1
+  patrol: ^3.15.2
 
 patrol:
   app_name: Test Lab
