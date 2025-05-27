@@ -54,12 +54,12 @@ flutter test integration_test/flutter
 |-----------|:------:|:------:|:-------:|:-------:|:---------------:|
 | System | Android | iOS | Android | iOS | Android/iOS |
 | Login with password | ✅ | ✅ | ✅ | ✅ | ✅ |
-| Login with Google | ✅ | ❌ | ✅ | ❌ | ❌ |
-| Connection | ✅ | ❌ | ✅ | ❌ | ❌ |
+| Login with Google | ✅ | - | ✅ | - | - |
+| Connection | ✅ | ⚠️ | ✅ | ⚠️ | ❌ |
 | Notifications | ✅ | ✅ | ✅ | ✅ | ❌ |
 | Event creation | ✅ | ✅ | ✅ | ✅ | ✅ |
 | Event editing | ✅ | ✅ | ✅ | ✅ | ✅ |
 | Event deletion | ✅ | ✅ | ✅ | ✅ | ✅ |
-| QR code scanning | ✅ | ❌ | ✅ | ❌ | ❌ |
+| QR code scanning | ✅ | ⚠️ | ✅ | ⚠️ | ❌ |
 | GPS functionality | ✅ | ✅ | ✅ | ✅ | ❌ |
 | Web view | ✅ | ✅ | ✅ | ✅ | ❌ |
