@@ -50,16 +50,31 @@ flutter test integration_test/flutter
 
 ## Available Tests
 
-| Test Name | Patrol |  | Maestro |  | integration_test |
-|-----------|:------:|:------:|:-------:|:-------:|:---------------:|
-| System | Android | iOS | Android | iOS | Android/iOS |
-| Login with password | ✅ | ✅ | ✅ | ✅ | ✅ |
-| Login with Google | ✅ | - | ✅ | - | - |
-| Connection | ✅ | ⚠️ | ✅ | ⚠️ | ❌ |
-| Notifications | ✅ | ✅ | ✅ | ✅ | ❌ |
-| Event creation | ✅ | ✅ | ✅ | ✅ | ✅ |
-| Event editing | ✅ | ✅ | ✅ | ✅ | ✅ |
-| Event deletion | ✅ | ✅ | ✅ | ✅ | ✅ |
-| QR code scanning | ✅ | ⚠️ | ✅ | ⚠️ | ❌ |
-| GPS functionality | ✅ | ✅ | ✅ | ✅ | ❌ |
-| Web view | ✅ | ✅ | ✅ | ✅ | ❌ |
+
+
+
+| Test name           | **Patrol** | **iOS** | **Maestro** | **iOS** | **Flutter test** | **iOS** |
+|---------------------|:----------:|:-------:|:-----------:|:-------:|:----------------:|:-------:|
+|                     | **Android**|         | **Android** |         | **Android**      |         |
+| Login with password | ✅         | ✅      | ✅          | ✅      | ✅               | ✅      |
+| Login with Google   | ✅         | —      | ✅          | —      | ❌               | —      |
+| Connection          | ✅         | ✅⚠️   | ✅          | ❌     | ❌               | ❌     |
+| Notifications       | ✅         | ✅     | ✅          | ✅     | ❌               | ❌     |
+| Event creation      | ✅         | ✅     | ✅          | ✅     | ✅               | ✅     |
+| Event editing       | ✅         | ✅     | ✅          | ✅     | ✅               | ✅     |
+| Event deletion      | ✅         | ✅     | ✅          | ✅     | ✅               | ✅     |
+| QR code scanning    | ✅         | ✅⚠️   | ✅          | ❌     | ❌               | ❌     |
+| GPS                 | ✅         | ✅     | ✅          | ✅     | ❌               | ❌     |
+| WebView             | ✅         | ✅     | ✅          | ✅     | ❌               | ❌     |
+
+
+
+
+ **✅** — implemented
+
+ **✅⚠️** — implemented, works only on real devices
+
+ **❌** — cannot be implemented
+
+ **—** — not applicable
+
