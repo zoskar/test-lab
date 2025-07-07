@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
+import 'package:test_lab/keys.g.dart';
 
 import '../../data/event/event.dart';
 import '../../data/event/event_cubit.dart';
 import '../../data/event/event_repository.dart';
-import '../../keys.dart';
 
 class EventForm extends StatefulWidget {
   const EventForm({super.key, this.eventToEdit, this.eventId});

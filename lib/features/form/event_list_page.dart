@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:test_lab/keys.g.dart';
 import '../../data/event/event.dart';
 import '../../data/event/event_cubit.dart';
-import '../../keys.dart';
 import 'event_creation_page.dart';
 
 class EventListPage extends StatefulWidget {

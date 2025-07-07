@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:test_lab/features/gps/gps_page.dart';
-import 'package:test_lab/keys.dart';
+import 'package:test_lab/keys.g.dart';
 import 'package:test_lab/widgets/tile.dart';
 
 class GPSTile extends StatelessWidget {

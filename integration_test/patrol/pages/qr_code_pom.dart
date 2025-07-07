@@ -1,5 +1,5 @@
 import 'package:patrol/patrol.dart';
-import 'package:test_lab/keys.dart';
+import 'package:test_lab/keys.g.dart';
 
 class QRCodePageObject {
   QRCodePageObject(this.$);
@@ -8,6 +8,6 @@ class QRCodePageObject {
 
   Future<void> checkIfImageLoaded() async {
     await $('Image loaded successfully').waitUntilVisible();
-    await $(QRPageKeys.loadedImage).waitUntilVisible();
+    await $(QrPageKeys.loadedImage).waitUntilVisible();
   }
 }

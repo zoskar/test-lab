@@ -1,5 +1,5 @@
 import 'package:patrol/patrol.dart';
-import 'package:test_lab/keys.dart';
+import 'package:test_lab/keys.g.dart';
 
 class ConnectionPageObject {
   ConnectionPageObject(this.$);

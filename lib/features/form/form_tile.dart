@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:test_lab/data/event/event_cubit.dart';
 import 'package:test_lab/data/event/event_repository.dart';
 import 'package:test_lab/features/form/event_list_page.dart';
-import 'package:test_lab/keys.dart';
+import 'package:test_lab/keys.g.dart';
 import 'package:test_lab/widgets/tile.dart';
 
 class FormsTile extends StatelessWidget {

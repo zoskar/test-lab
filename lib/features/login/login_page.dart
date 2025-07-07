@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:test_lab/keys.dart';
+import 'package:test_lab/keys.g.dart';
 import 'auth_cubit.dart';
 
 class LoginPage extends StatelessWidget {

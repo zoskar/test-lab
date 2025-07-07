@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:test_lab/features/notifications/notifications_page.dart';
-import 'package:test_lab/keys.dart';
+import 'package:test_lab/keys.g.dart';
 import 'package:test_lab/widgets/tile.dart';
 
 class NotificationsTile extends StatelessWidget {
@@ -15,7 +15,9 @@ class NotificationsTile extends StatelessWidget {
       onTap: () {
         Navigator.push(
           context,
-          MaterialPageRoute<void>(builder: (context) => const NotificationsPage()),
+          MaterialPageRoute<void>(
+            builder: (context) => const NotificationsPage(),
+          ),
         );
       },
     );

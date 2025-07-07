@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:test_lab/keys.dart';
+import 'package:test_lab/keys.g.dart';
 
 class NotificationSuccessPage extends StatelessWidget {
   const NotificationSuccessPage({super.key});

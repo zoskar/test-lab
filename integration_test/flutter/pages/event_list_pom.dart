@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:test_lab/keys.dart';
+import 'package:test_lab/keys.g.dart';
 
 class EventListPageObject {
   EventListPageObject(this.tester);

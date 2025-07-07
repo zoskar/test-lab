@@ -1,7 +1,7 @@
 import 'package:app_settings/app_settings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:test_lab/keys.dart';
+import 'package:test_lab/keys.g.dart';
 import 'notifications_success_page.dart';
 
 class NotificationsPage extends StatefulWidget {
