@@ -280,26 +280,66 @@ function extractNestedObjectBody(fullBody, startLine) {
 function generateDartCode(properties) {
     let dartCode = "import 'package:flutter/widgets.dart';\n\n";
 
-    // First, generate all nested ValueKey classes
+    // Generate a single generic TestKey class instead of multiple hardcoded ones
+    dartCode += `class TestKey extends ValueKey<String> {\n`;
+    dartCode += `  const TestKey(super.value);\n`;
+    dartCode += `}\n\n`;
+
+    // Generate concrete classes for all nested structures
     const allClasses = collectAllClasses(properties);
 
-    // Generate ValueKey classes for all nested structures
+    // Identify top-level classes (those that correspond to direct properties in the config)
+    const topLevelClassNames = Object.keys(properties).map(key => toPascalCase(key));
+
     for (const classInfo of allClasses) {
-        dartCode += `class _${classInfo.className}Key extends ValueKey<String> {\n`;
-        dartCode += `  const _${classInfo.className}Key(String value) : super('${classInfo.prefix}_\$value');\n`;
+        const isTopLevel = topLevelClassNames.includes(classInfo.className);
+
+        dartCode += `final class ${classInfo.className}Keys {\n`;
+        dartCode += `  const ${classInfo.className}Keys();\n\n`;
+        dartCode += generateStaticProperties(classInfo.properties, classInfo.prefix, '  ', allClasses, isTopLevel);
         dartCode += `}\n\n`;
     }
 
-      // Generate concrete classes for all nested structures  
-  for (const classInfo of allClasses) {
-    dartCode += `final class ${classInfo.className}Keys {\n`;
-    dartCode += `  const ${classInfo.className}Keys();\n\n`;
-    dartCode += generateStaticProperties(classInfo.properties, `_${classInfo.className}Key`, '  ', allClasses);
-    dartCode += `}\n\n`;
-  }
+    // Generate singleton instances for easy access to nested classes only
+    for (const classInfo of allClasses) {
+        const isTopLevel = topLevelClassNames.includes(classInfo.className);
+        if (!isTopLevel) {
+            const instanceName = classInfo.className.charAt(0).toLowerCase() + classInfo.className.slice(1);
+            dartCode += `const ${instanceName} = ${classInfo.className}Keys();\n`;
+        }
+    }
 
     // Ensure exactly one newline at the end by trimming any extra newlines and adding one
     return dartCode.trimEnd() + '\n';
+}
+
+/**
+ * Generate static properties for a class
+ */
+function generateStaticProperties(properties, classPrefix, indent, allClasses = [], isTopLevel = true) {
+    let result = '';
+
+    for (const [propName, propValue] of Object.entries(properties)) {
+        if (typeof propValue === 'string') {
+            // Build the full path dynamically instead of hardcoding
+            const fullPath = `${classPrefix}_${propName}`;
+            if (isTopLevel) {
+                result += `${indent}static const ${propName} = TestKey('${fullPath}');\n`;
+            } else {
+                result += `${indent}final ${propName} = const TestKey('${fullPath}');\n`;
+            }
+        } else if (typeof propValue === 'object') {
+            // Handle nested objects by referencing the nested class
+            const nestedClassName = toPascalCase(propName);
+            if (isTopLevel) {
+                result += `${indent}static const ${propName} = ${nestedClassName}Keys();\n`;
+            } else {
+                result += `${indent}final ${propName} = const ${nestedClassName}Keys();\n`;
+            }
+        }
+    }
+
+    return result;
 }
 
 /**
@@ -319,25 +359,6 @@ function collectAllClasses(properties, parentPrefix = '', result = []) {
 
             // Recursively collect nested classes
             collectAllClasses(propertyValue, prefix, result);
-        }
-    }
-
-    return result;
-}
-
-/**
- * Generate static properties for a class
- */
-function generateStaticProperties(properties, keyClass, indent, allClasses = []) {
-    let result = '';
-
-    for (const [propName, propValue] of Object.entries(properties)) {
-        if (typeof propValue === 'string') {
-            result += `${indent}static const ${propName} = ${keyClass}('${propName}');\n`;
-        } else if (typeof propValue === 'object') {
-            // Handle nested objects by referencing the nested class
-            const nestedClassName = toPascalCase(propName);
-            result += `${indent}static const ${propName} = ${nestedClassName}Keys();\n`;
         }
     }
 
