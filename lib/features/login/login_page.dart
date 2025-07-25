@@ -33,7 +33,7 @@ class LoginPage extends StatelessWidget {
                     const Text('You are logged in!'),
                     const SizedBox(height: 16),
                     ElevatedButton(
-                      key: LoginPageKeys.goBackButton,
+                      key: keys.loginPage.goBackButton,
                       onPressed: () {
                         Navigator.of(context).pop();
                       },
@@ -41,7 +41,7 @@ class LoginPage extends StatelessWidget {
                     ),
                     const SizedBox(height: 16),
                     ElevatedButton(
-                      key: LoginPageKeys.logoutButton,
+                      key: keys.loginPage.logoutButton,
                       onPressed: () {
                         context.read<AuthCubit>().logout();
                       },
@@ -59,14 +59,14 @@ class LoginPage extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   TextField(
-                    key: LoginPageKeys.loginField,
+                    key: keys.loginPage.loginField,
                     controller: emailController,
                     decoration: const InputDecoration(labelText: 'Email'),
                     keyboardType: TextInputType.emailAddress,
                   ),
                   const SizedBox(height: 16),
                   TextField(
-                    key: LoginPageKeys.passwordField,
+                    key: keys.loginPage.passwordField,
                     controller: passwordController,
                     decoration: const InputDecoration(labelText: 'Password'),
                     obscureText: true,
@@ -76,7 +76,7 @@ class LoginPage extends StatelessWidget {
                     const CircularProgressIndicator()
                   else
                     ElevatedButton(
-                      key: LoginPageKeys.loginButton,
+                      key: keys.loginPage.loginButton,
                       onPressed: () {
                         final email = emailController.text.trim();
                         final password = passwordController.text.trim();
@@ -98,7 +98,7 @@ class LoginPage extends StatelessWidget {
                     ),
                     const SizedBox(height: 24),
                     OutlinedButton.icon(
-                      key: LoginPageKeys.googleSignInButton,
+                      key: keys.loginPage.googleSignInButton,
                       onPressed: () {
                         context.read<AuthCubit>().signInWithGoogle();
                       },

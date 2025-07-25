@@ -10,13 +10,13 @@ class LoginPageObject {
     const email = String.fromEnvironment('LOGIN_EMAIL');
     const password = String.fromEnvironment('LOGIN_PASSWORD');
 
-    await $(LoginPageKeys.loginField).enterText(email);
-    await $(LoginPageKeys.passwordField).enterText(password);
+    await $(keys.loginPage.loginField).enterText(email);
+    await $(keys.loginPage.passwordField).enterText(password);
   }
 
   Future<void> googleLogIn() async {
     await $(
-      LoginPageKeys.googleSignInButton,
+      keys.loginPage.googleSignInButton,
     ).tap(settlePolicy: SettlePolicy.noSettle);
     await $.native2.tap(
       NativeSelector(android: AndroidSelector(text: 'Andrzej Strzelba')),
@@ -24,12 +24,12 @@ class LoginPageObject {
   }
 
   Future<void> logIn() async {
-    await $(LoginPageKeys.loginButton).tap();
+    await $(keys.loginPage.loginButton).tap();
   }
 
   Future<void> checkIfLoggedIn() async {
     await $('You are logged in!').waitUntilVisible();
-    await $(LoginPageKeys.goBackButton).tap();
+    await $(keys.loginPage.goBackButton).tap();
     await $('Logout').waitUntilVisible();
   }
 }

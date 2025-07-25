@@ -76,7 +76,7 @@ class _QRScannerPageState extends State<QRScannerPage> {
                   if (_imageUrl != null)
                     Expanded(
                       child: Image.network(
-                        key: QRPageKeys.loadedImage,
+                        key: keys.qrPage.loadedImage,
                         _imageUrl!,
                         loadingBuilder: (context, child, loadingProgress) {
                           if (loadingProgress == null) {

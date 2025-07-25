@@ -7,6 +7,6 @@ class GpsPageObject {
   final PatrolIntegrationTester $;
 
   Future<void> isSuccessDialogVisible() async {
-    await $(GpsPageKeys.successDialog).waitUntilVisible();
+    await $(keys.gpsPage.successDialog).waitUntilVisible();
   }
 }

@@ -7,27 +7,27 @@ class EventFormPageObject {
   final PatrolIntegrationTester $;
 
   Future<void> fillInEventDetails(String eventName) async {
-    await $(EventFormKeys.nameField).enterText(eventName);
-    await $(EventFormKeys.eventTypeDropdown).tap();
+    await $(keys.eventFormPage.nameField).enterText(eventName);
+    await $(keys.eventFormPage.eventTypeDropdown).tap();
     await $('Meetup').tap();
-    await $(EventFormKeys.onlineCheckbox).tap();
-    await $(EventFormKeys.recordedCheckbox).tap();
+    await $(keys.eventFormPage.onlineCheckbox).tap();
+    await $(keys.eventFormPage.recordedCheckbox).tap();
     // TODO find a way to select the guest slider
     // await $(EventFormKeys.guestSlider)
-    await $(EventFormKeys.dateField).tap();
+    await $(keys.eventFormPage.dateField).tap();
     await $('OK').tap();
-    await $(EventFormKeys.timeField).tap();
+    await $(keys.eventFormPage.timeField).tap();
     await $('OK').tap();
-    await $(EventFormKeys.colorPicker).tap();
+    await $(keys.eventFormPage.colorPicker).tap();
     await $('Done').tap();
-    await $(EventFormKeys.notificationsSwitch).tap();
+    await $(keys.eventFormPage.notificationsSwitch).tap();
   }
 
   Future<void> fillName(String name) async {
-    await $(EventFormKeys.nameField).enterText(name);
+    await $(keys.eventFormPage.nameField).enterText(name);
   }
 
   Future<void> saveEvent() async {
-    await $(EventFormKeys.saveButton).tap();
+    await $(keys.eventFormPage.saveButton).tap();
   }
 }

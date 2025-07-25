@@ -7,32 +7,32 @@ class HomePageObject {
   final PatrolIntegrationTester $;
 
   Future<void> openLogin() async {
-    await $(HomePageKeys.loginTile).tap();
+    await $(keys.homePage.loginTile).tap();
   }
 
   Future<void> openNotifications() async {
     await $(
-      HomePageKeys.notificationsTile,
+      keys.homePage.notificationsTile,
     ).tap(settlePolicy: SettlePolicy.noSettle);
   }
 
   Future<void> openQrScanner() async {
-    await $(HomePageKeys.qrTile).tap();
+    await $(keys.homePage.qrTile).tap();
   }
 
   Future<void> openWebView() async {
-    await $(HomePageKeys.webViewTile).tap();
+    await $(keys.homePage.webViewTile).tap();
   }
 
   Future<void> openGps() async {
-    await $(HomePageKeys.gpsTile).tap(settlePolicy: SettlePolicy.noSettle);
+    await $(keys.homePage.gpsTile).tap(settlePolicy: SettlePolicy.noSettle);
   }
 
   Future<void> openConnection() async {
-    await $(HomePageKeys.connectionTile).tap();
+    await $(keys.homePage.connectionTile).tap();
   }
 
   Future<void> openForm() async {
-    await $(HomePageKeys.formTile).tap();
+    await $(keys.homePage.formTile).tap();
   }
 }

@@ -66,10 +66,10 @@ class ConnectionPage extends StatelessWidget {
       children: [
         const Icon(Icons.wifi, size: 80, color: Colors.green),
         const SizedBox(height: 20),
-        const Text(
+        Text(
           'Connected',
-          key: ConnectionPageKeys.connectedStatus,
-          style: TextStyle(
+          key: keys.connectionPage.connectedStatus,
+          style: const TextStyle(
             fontSize: 24,
             fontWeight: FontWeight.bold,
             color: Colors.green,
@@ -99,10 +99,10 @@ class ConnectionPage extends StatelessWidget {
       children: [
         const Icon(Icons.wifi_off, size: 80, color: Colors.red),
         const SizedBox(height: 20),
-        const Text(
+        Text(
           'Disconnected',
-          key: ConnectionPageKeys.disconnectedStatus,
-          style: TextStyle(
+          key: keys.connectionPage.disconnectedStatus,
+          style: const TextStyle(
             fontSize: 24,
             fontWeight: FontWeight.bold,
             color: Colors.red,

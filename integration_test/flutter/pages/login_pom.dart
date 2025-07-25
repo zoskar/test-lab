@@ -10,17 +10,17 @@ class LoginPageObject {
     required String email,
     required String password,
   }) async {
-    await tester.enterText(find.byKey(LoginPageKeys.loginField), email);
-    await tester.enterText(find.byKey(LoginPageKeys.passwordField), password);
+    await tester.enterText(find.byKey(keys.loginPage.loginField), email);
+    await tester.enterText(find.byKey(keys.loginPage.passwordField), password);
   }
 
   Future<void> logIn() async {
-    await tester.tap(find.byKey(LoginPageKeys.loginButton));
+    await tester.tap(find.byKey(keys.loginPage.loginButton));
     await tester.pumpAndSettle();
   }
 
   Future<void> goBack() async {
-    await tester.tap(find.byKey(LoginPageKeys.goBackButton));
+    await tester.tap(find.byKey(keys.loginPage.goBackButton));
     await tester.pumpAndSettle();
   }
 

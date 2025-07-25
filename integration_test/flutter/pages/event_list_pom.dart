@@ -8,7 +8,7 @@ class EventListPageObject {
   final WidgetTester tester;
 
   Future<void> createNewEvent() async {
-    await tester.tap(find.byKey(EventListPageKeys.addEventButton));
+    await tester.tap(find.byKey(keys.eventListPage.addEventButton));
     await tester.pumpAndSettle();
   }
 
@@ -21,15 +21,15 @@ class EventListPageObject {
     await tester.tap(
       find.descendant(
         of: eventFinder,
-        matching: find.byKey(EventListPageKeys.menuButton),
+        matching: find.byKey(keys.eventListPage.menuButton),
       ),
     );
     await tester.pumpAndSettle();
 
-    await tester.tap(find.byKey(EventListPageKeys.deleteButton));
+    await tester.tap(find.byKey(keys.eventListPage.deleteButton));
     await tester.pumpAndSettle();
 
-    await tester.tap(find.byKey(EventListPageKeys.deleteConfirmButton));
+    await tester.tap(find.byKey(keys.eventListPage.deleteConfirmButton));
     await tester.pumpAndSettle();
   }
 
@@ -42,12 +42,12 @@ class EventListPageObject {
     await tester.tap(
       find.descendant(
         of: eventFinder,
-        matching: find.byKey(EventListPageKeys.menuButton),
+        matching: find.byKey(keys.eventListPage.menuButton),
       ),
     );
     await tester.pumpAndSettle();
 
-    await tester.tap(find.byKey(EventListPageKeys.editButton));
+    await tester.tap(find.byKey(keys.eventListPage.editButton));
     await tester.pumpAndSettle();
   }
 

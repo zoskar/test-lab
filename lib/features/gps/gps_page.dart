@@ -96,7 +96,7 @@ class _GPSPageState extends State<GPSPage> {
       barrierDismissible: false,
       builder: (context) {
         return AlertDialog(
-          key: GpsPageKeys.successDialog,
+          key: keys.gpsPage.successDialog,
           title: const Text('Success!'),
           content: const Text('You have reached the waypoint!'),
           backgroundColor: Colors.green[100],

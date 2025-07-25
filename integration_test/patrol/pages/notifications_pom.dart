@@ -7,10 +7,10 @@ class NotificationsPageObject {
   final PatrolIntegrationTester $;
 
   Future<void> requestPermission() async {
-    await $(NotificationsPageKeys.requestNotificationButton).tap();
+    await $(keys.notificationsPage.requestNotificationButton).tap();
   }
 
   Future<void> isOnNotificationSuccessPage() async {
-    await $(NotificationsPageKeys.notificationGoBackButton).waitUntilVisible();
+    await $(keys.notificationsPage.notificationGoBackButton).waitUntilVisible();
   }
 }

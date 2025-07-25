@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
+import 'package:test_lab/keys.dart';
 
 import '../../data/event/event.dart';
 import '../../data/event/event_cubit.dart';
 import '../../data/event/event_repository.dart';
-import '../../keys.dart';
 
 class EventForm extends StatefulWidget {
   const EventForm({super.key, this.eventToEdit, this.eventId});
@@ -225,7 +225,7 @@ class _EventFormState extends State<EventForm> {
           child: ListView(
             children: [
               TextFormField(
-                key: EventFormKeys.nameField,
+                key: keys.eventFormPage.nameField,
                 controller: _nameController,
                 decoration: const InputDecoration(labelText: 'Event Name*'),
                 onSaved: (value) {},
@@ -234,7 +234,7 @@ class _EventFormState extends State<EventForm> {
               const SizedBox(height: 16),
 
               DropdownButtonFormField<String>(
-                key: EventFormKeys.eventTypeDropdown,
+                key: keys.eventFormPage.eventTypeDropdown,
                 value: _eventType,
                 decoration: const InputDecoration(labelText: 'Event Type'),
                 items:
@@ -250,14 +250,14 @@ class _EventFormState extends State<EventForm> {
               const SizedBox(height: 16),
 
               CheckboxListTile(
-                key: EventFormKeys.onlineCheckbox,
+                key: keys.eventFormPage.onlineCheckbox,
                 title: const Text('Is this an online event?'),
                 value: _isOnline,
                 onChanged: (value) => setState(() => _isOnline = value!),
               ),
 
               CheckboxListTile(
-                key: EventFormKeys.recordedCheckbox,
+                key: keys.eventFormPage.recordedCheckbox,
                 title: const Text('Is this event recorded?'),
                 value: _isRecorded,
                 onChanged: (value) => setState(() => _isRecorded = value!),
@@ -270,7 +270,7 @@ class _EventFormState extends State<EventForm> {
                 children: [
                   const Text('Number of Guests'),
                   Slider(
-                    key: EventFormKeys.guestSlider,
+                    key: keys.eventFormPage.guestSlider,
                     value: guestOptions.indexOf(_guestCount).toDouble(),
                     max: (guestOptions.length - 1).toDouble(),
                     divisions: guestOptions.length - 1,
@@ -296,7 +296,7 @@ class _EventFormState extends State<EventForm> {
               const SizedBox(height: 16),
 
               TextFormField(
-                key: EventFormKeys.dateField,
+                key: keys.eventFormPage.dateField,
                 decoration: const InputDecoration(
                   labelText: 'Event Date',
                   suffixIcon: Icon(Icons.calendar_today),
@@ -309,7 +309,7 @@ class _EventFormState extends State<EventForm> {
               const SizedBox(height: 16),
 
               TextFormField(
-                key: EventFormKeys.timeField,
+                key: keys.eventFormPage.timeField,
                 decoration: const InputDecoration(
                   labelText: 'Event Time',
                   suffixIcon: Icon(Icons.access_time),
@@ -322,7 +322,7 @@ class _EventFormState extends State<EventForm> {
               const SizedBox(height: 16),
 
               ListTile(
-                key: EventFormKeys.colorPicker,
+                key: keys.eventFormPage.colorPicker,
                 title: const Text('Event Theme Color'),
                 trailing: CircleAvatar(backgroundColor: _selectedColor),
                 onTap: () => _selectColor(context),
@@ -333,7 +333,7 @@ class _EventFormState extends State<EventForm> {
               FormField<bool>(
                 builder:
                     (state) => SwitchListTile(
-                      key: EventFormKeys.notificationsSwitch,
+                      key: keys.eventFormPage.notificationsSwitch,
                       title: const Text('Enable Notifications'),
                       value: _notificationsEnabled,
                       onChanged: (value) {
@@ -346,7 +346,7 @@ class _EventFormState extends State<EventForm> {
               const SizedBox(height: 24),
 
               ElevatedButton(
-                key: EventFormKeys.saveButton,
+                key: keys.eventFormPage.saveButton,
                 style: ElevatedButton.styleFrom(
                   backgroundColor:
                       _isFormValid() ? Colors.lightBlue : Colors.grey,

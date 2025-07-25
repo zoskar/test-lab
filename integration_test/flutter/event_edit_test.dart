@@ -17,7 +17,7 @@ void main() {
     await Common.openIntegrationApp(tester);
     eventId = await Common.createTestEvent(eventName);
 
-    await tester.tap(find.byKey(HomePageKeys.formTile));
+    await tester.tap(find.byKey(keys.homePage.formTile));
     await tester.pumpAndSettle();
 
     final listTile = find.ancestor(
@@ -27,19 +27,19 @@ void main() {
 
     final menuButton = find.descendant(
       of: listTile,
-      matching: find.byKey(EventListPageKeys.menuButton),
+      matching: find.byKey(keys.eventListPage.menuButton),
     );
 
     await tester.tap(menuButton);
     await tester.pumpAndSettle();
 
-    await tester.tap(find.byKey(EventListPageKeys.editButton));
+    await tester.tap(find.byKey(keys.eventListPage.editButton));
     await tester.pumpAndSettle();
 
-    await tester.enterText(find.byKey(EventFormKeys.nameField), newEventName);
+    await tester.enterText(find.byKey(keys.eventFormPage.nameField), newEventName);
     await tester.pumpAndSettle();
 
-    await tester.tap(find.byKey(EventFormKeys.saveButton));
+    await tester.tap(find.byKey(keys.eventFormPage.saveButton));
     await tester.pumpAndSettle();
 
     expect(find.text(newEventName), findsOneWidget);

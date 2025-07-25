@@ -8,6 +8,6 @@ class QRCodePageObject {
 
   Future<void> checkIfImageLoaded() async {
     await $('Image loaded successfully').waitUntilVisible();
-    await $(QRPageKeys.loadedImage).waitUntilVisible();
+    await $(keys.qrPage.loadedImage).waitUntilVisible();
   }
 }

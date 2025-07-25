@@ -7,10 +7,10 @@ class ConnectionPageObject {
   final PatrolIntegrationTester $;
 
   Future<void> checkIfConnected() async {
-    await $(ConnectionPageKeys.connectedStatus).waitUntilVisible();
+    await $(keys.connectionPage.connectedStatus).waitUntilVisible();
   }
 
   Future<void> checkIfDisconnected() async {
-    await $(ConnectionPageKeys.disconnectedStatus).waitUntilVisible();
+    await $(keys.connectionPage.disconnectedStatus).waitUntilVisible();
   }
 }

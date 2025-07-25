@@ -86,7 +86,7 @@ class _NotificationsPageState extends State<NotificationsPage> {
     return _controller.isLoading
         ? const CircularProgressIndicator()
         : ElevatedButton(
-          key: NotificationsPageKeys.requestNotificationButton,
+          key: keys.notificationsPage.requestNotificationButton,
           onPressed:
               _controller.permissionGranted
                   ? _controller.showNotification

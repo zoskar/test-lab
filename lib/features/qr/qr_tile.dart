@@ -1,7 +1,7 @@
+import 'package:common_ui/widgets/tile.dart';
 import 'package:flutter/material.dart';
 import 'package:test_lab/features/qr/qr_scanner_page.dart';
 import 'package:test_lab/keys.dart';
-import 'package:test_lab/widgets/tile.dart';
 
 class QRCodeTile extends StatelessWidget {
   const QRCodeTile({super.key});
@@ -9,7 +9,7 @@ class QRCodeTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TLTile(
-      key: HomePageKeys.qrTile,
+      key: keys.homePage.qrTile,
       onTap:
           () => Navigator.push(
             context,

@@ -1,7 +1,7 @@
+import 'package:common_ui/widgets/tile.dart';
 import 'package:flutter/material.dart';
 import 'package:test_lab/features/gps/gps_page.dart';
 import 'package:test_lab/keys.dart';
-import 'package:test_lab/widgets/tile.dart';
 
 class GPSTile extends StatelessWidget {
   const GPSTile({super.key});
@@ -9,7 +9,7 @@ class GPSTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TLTile(
-      key: HomePageKeys.gpsTile,
+      key: keys.homePage.gpsTile,
       icon: Icons.location_on,
       text: 'GPS',
       onTap: () {

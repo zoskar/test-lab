@@ -7,12 +7,12 @@ class HomePageObject {
   final WidgetTester tester;
 
   Future<void> openLogin() async {
-    await tester.tap(find.byKey(HomePageKeys.loginTile));
+    await tester.tap(find.byKey(keys.homePage.loginTile));
     await tester.pumpAndSettle();
   }
 
   Future<void> openForm() async {
-    await tester.tap(find.byKey(HomePageKeys.formTile));
+    await tester.tap(find.byKey(keys.homePage.formTile));
     await tester.pumpAndSettle();
   }
 }

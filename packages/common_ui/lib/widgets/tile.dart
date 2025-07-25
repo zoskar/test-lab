@@ -1,3 +1,4 @@
+import 'package:common_ui/widgets/keys.dart';
 import 'package:flutter/material.dart';
 
 class TLTile extends StatelessWidget {
@@ -14,6 +15,7 @@ class TLTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
+      key: widgetKeys.tile,
       onTap: onTap,
       child: Container(
         decoration: BoxDecoration(

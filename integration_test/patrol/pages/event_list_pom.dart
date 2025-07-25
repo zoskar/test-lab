@@ -9,22 +9,22 @@ class EventListPageObject {
   final PatrolIntegrationTester $;
 
   Future<void> createNewEvent() async {
-    await $(EventListPageKeys.addEventButton).tap();
+    await $(keys.eventListPage.addEventButton).tap();
   }
 
   Future<void> deleteEvent(String eventName) async {
     await $(
       ListTile,
-    ).containing(eventName).$(EventListPageKeys.menuButton).tap();
-    await $(EventListPageKeys.deleteButton).tap();
-    await $(EventListPageKeys.deleteConfirmButton).tap();
+    ).containing(eventName).$(keys.eventListPage.menuButton).tap();
+    await $(keys.eventListPage.deleteButton).tap();
+    await $(keys.eventListPage.deleteConfirmButton).tap();
   }
 
   Future<void> editEvent(String eventName) async {
     await $(
       ListTile,
-    ).containing(eventName).$(EventListPageKeys.menuButton).tap();
-    await $(EventListPageKeys.editButton).tap();
+    ).containing(eventName).$(keys.eventListPage.menuButton).tap();
+    await $(keys.eventListPage.editButton).tap();
   }
 
   Future<void> eventNotOnTheList(String eventName) async {

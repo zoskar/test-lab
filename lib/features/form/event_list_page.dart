@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:test_lab/keys.dart';
 import '../../data/event/event.dart';
 import '../../data/event/event_cubit.dart';
-import '../../keys.dart';
 import 'event_creation_page.dart';
 
 class EventListPage extends StatefulWidget {
@@ -45,7 +45,7 @@ class _EventListPageState extends State<EventListPage> {
                 child: const Text('CANCEL'),
               ),
               TextButton(
-                key: EventListPageKeys.deleteConfirmButton,
+                key: keys.eventListPage.deleteConfirmButton,
                 onPressed: () => Navigator.pop(context, true),
                 child: const Text('DELETE'),
               ),
@@ -100,7 +100,7 @@ class _EventListPageState extends State<EventListPage> {
               ),
             ),
             PopupMenuButton<String>(
-              key: EventListPageKeys.menuButton,
+              key: keys.eventListPage.menuButton,
               icon: const Icon(Icons.more_vert),
               onSelected: (value) {
                 if (value == 'edit') {
@@ -111,15 +111,15 @@ class _EventListPageState extends State<EventListPage> {
               },
               itemBuilder:
                   (context) => [
-                    const PopupMenuItem<String>(
-                      key: EventListPageKeys.editButton,
+                    PopupMenuItem<String>(
+                      key: keys.eventListPage.editButton,
                       value: 'edit',
-                      child: Text('Edit'),
+                      child: const Text('Edit'),
                     ),
-                    const PopupMenuItem<String>(
-                      key: EventListPageKeys.deleteButton,
+                    PopupMenuItem<String>(
+                      key: keys.eventListPage.deleteButton,
                       value: 'delete',
-                      child: Text('Delete'),
+                      child: const Text('Delete'),
                     ),
                   ],
             ),
@@ -163,7 +163,7 @@ class _EventListPageState extends State<EventListPage> {
     return Scaffold(
       appBar: AppBar(title: const Text('Events')),
       body: RefreshIndicator(
-        key: EventListPageKeys.refreshIndicator,
+        key: keys.eventListPage.refreshIndicator,
         onRefresh: _refreshEvents,
         child: BlocConsumer<EventCubit, EventState>(
           listener: (context, state) {
@@ -190,7 +190,7 @@ class _EventListPageState extends State<EventListPage> {
       floatingActionButton: Semantics(
         label: 'Create new event',
         child: FloatingActionButton(
-          key: EventListPageKeys.addEventButton,
+          key: keys.eventListPage.addEventButton,
           onPressed: () async {
             final result = await Navigator.push(
               context,
